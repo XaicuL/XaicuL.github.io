@@ -142,7 +142,7 @@
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 }
 
 .control-btn:hover {
@@ -157,6 +157,19 @@
     border-radius: 4px;
     font-size: 0.65rem;
     color: var(--text-tertiary);
+}
+
+.cmd-mac-icon,
+.cmd-win-icon {
+    display: none;
+}
+
+.is-mac .cmd-mac-icon {
+    display: inline;
+}
+
+.is-win .cmd-win-icon {
+    display: inline;
 }
 
 /* Main content */
@@ -210,5 +223,44 @@ section {
 
     .header-controls {
         right: 16px;
+    }
+
+    #cmdBtn {
+        display: none;
+    }
+}
+
+/* Footer */
+.site-footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+.footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+}
+
+.luciano-brand {
+    color: var(--accent);
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        padding: 30px 24px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
     }
 }

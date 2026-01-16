@@ -10,6 +10,31 @@
     scroll-snap-type: x mandatory;
 }
 
+/* Re Filter */
+.re-filter-container {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.re-filter {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.re-filter:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+}
+
 .re-card {
     min-width: 280px;
     background: var(--bg-card);

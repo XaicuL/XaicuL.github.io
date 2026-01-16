@@ -44,6 +44,10 @@
                 05
                 <span class="nav-tooltip">Re</span>
             </div>
+            <div class="nav-dot" data-section="updates" onclick="scrollToSection('updates')">
+                06
+                <span class="nav-tooltip">Updates</span>
+            </div>
         </div>
 
         <div class="social-links">
@@ -79,7 +83,10 @@
     <div class="header-controls">
         <button class="control-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
         <button class="control-btn" id="cmdBtn" onclick="openCommandPalette()">
-            <span id="cmdKey">⌘</span> <kbd>K</kbd>
+            <span class="cmd-mac-icon"> Cmd</span>
+            <span class="cmd-win-icon">⊞ Ctrl</span>
+            <span class="plus-sign">+</span>
+            <kbd>K</kbd>
         </button>
     </div>
 
@@ -173,7 +180,7 @@
                     <div class="contact-icon">💻</div>
                     <div>
                         <div class="contact-label">GitHub</div>
-                        <div class="contact-value">@XaicuL</div>
+                        <div class="contact-value">hyunjun050915@gmail.com</div>
                     </div>
                 </a>
                 <a href="cv.pdf" download class="contact-card">
@@ -188,8 +195,27 @@
 
         <section id="re">
             <div class="section-label" id="reLabel">Re — Resolve & Retrospect</div>
+            <div class="re-filter-container">
+                <select id="reYearFilter" class="re-filter" onchange="filterReCards()">
+                    <option value="all">All Years</option>
+                </select>
+            </div>
             <div class="re-grid" id="reGrid"></div>
         </section>
+
+        <section id="updates">
+            <div class="section-label" id="updatesLabel">Updates</div>
+            <div class="updates-grid" id="updatesGrid">
+                <!-- Dev.to posts will be loaded here -->
+                <div class="loading-spinner">Loading latest updates...</div>
+            </div>
+        </section>
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p class="copyright">© 2026 HYUNJUN Jeon. All rights reserved.</p>
+                <p class="designer">Designed & Developed by <span class="luciano-brand">Luciano</span></p>
+            </div>
+        </footer>
     </main>
 
     <div class="cmd-palette-overlay" id="cmdPalette" onclick="closeCommandPalette(event)">
@@ -228,16 +254,39 @@
                     <div class="cmd-item-label">Go to Re</div>
                     <div class="cmd-item-shortcut">5</div>
                 </div>
+                <div class="cmd-item" onclick="scrollToSection('updates'); closeCommandPalette();">
+                    <div class="cmd-item-icon">🔔</div>
+                    <div class="cmd-item-label">Go to Updates</div>
+                    <div class="cmd-item-shortcut">6</div>
+                </div>
                 <div class="cmd-item"
                     onclick="window.open('https://github.com/XaicuL', '_blank'); closeCommandPalette();">
                     <div class="cmd-item-icon">💻</div>
                     <div class="cmd-item-label">Open GitHub</div>
                     <div class="cmd-item-shortcut">G</div>
                 </div>
+                <div class="cmd-item"
+                    onclick="window.open('https://dev.to/luc1a_no', '_blank'); closeCommandPalette();">
+                    <div class="cmd-item-icon">✍️</div>
+                    <div class="cmd-item-label">Open Dev.to</div>
+                    <div class="cmd-item-shortcut">B</div>
+                </div>
+                <div class="cmd-item"
+                    onclick="window.open('https://scholar.google.com/citations?user=-7L12NQAAAAJ&hl=en&authuser=1', '_blank'); closeCommandPalette();">
+                    <div class="cmd-item-icon">🎓</div>
+                    <div class="cmd-item-label">Open Google Scholar</div>
+                    <div class="cmd-item-shortcut">S</div>
+                </div>
+                <div class="cmd-item"
+                    onclick="window.open('https://www.linkedin.com/in/luciano05/', '_blank'); closeCommandPalette();">
+                    <div class="cmd-item-icon">🔗</div>
+                    <div class="cmd-item-label">Open LinkedIn</div>
+                    <div class="cmd-item-shortcut">L</div>
+                </div>
                 <div class="cmd-item" onclick="toggleLanguage(); closeCommandPalette();">
                     <div class="cmd-item-icon">🌐</div>
                     <div class="cmd-item-label">Toggle Language</div>
-                    <div class="cmd-item-shortcut">L</div>
+                    <div class="cmd-item-shortcut">T</div>
                 </div>
             </div>
         </div>

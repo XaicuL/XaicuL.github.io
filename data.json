@@ -34,10 +34,10 @@
   ],
   "work": [
     {
-      "year": "Coming Soon",
-      "title": "Research Papers",
-      "desc_kr": "현재 진행 중인 연구가 곧 공개될 예정입니다.",
-      "desc_en": "Research in progress. Coming soon.",
+      "year": "2026",
+      "title": "HND (Hypothesis-driven Negativet) Frame work",
+      "desc_kr": "기존 유클리드 공식은 두 변수의 상호작용과 제약 조건($\\gcd(m,k)=1$)으로 인해 AI가 구조적 규칙을 찾기 어렵습니다. 본 연구는 슈티펠의 고전적 수열을 단일 변수 $n$으로 변환한 **Index Theory**를 사용하여, AI에게 가장 명확한 수론적 질서를 제시합니다.",
+      "desc_en": "The existing Euclidean formula makes it difficult for AI to discover structural patterns due to the interaction between two variables and the constraint condition ($\\gcd(m,k)=1$). This study employs **exponential theory**, which transforms Stifel's classical sequence into a single variable $n$, to present the clearest possible arithmetic order to AI.",
       "tags": [
         "Paper"
       ]
