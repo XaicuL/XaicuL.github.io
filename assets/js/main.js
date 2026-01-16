@@ -198,6 +198,14 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
+    if (key === 'm') {
+        if (!isInput || isPaletteOpen) {
+            e.preventDefault();
+            window.location.href = 'mailto:hyunjun050915@gmail.com';
+            if (isPaletteOpen) closeCommandPalette();
+        }
+    }
+
     if (key === 't') {
         if (!isInput || isPaletteOpen) {
             e.preventDefault();
