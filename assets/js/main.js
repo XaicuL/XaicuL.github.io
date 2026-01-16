@@ -73,8 +73,19 @@ function updateContent() {
     renderTimeline(workData, 'workTimeline');
     
     // Re-render MathJax after dynamic content is loaded
-    if (typeof MathJax !== 'undefined' && MathJax.typeset) {
-        MathJax.typeset();
+    typesetMath();
+}
+
+function typesetMath() {
+    if (typeof MathJax !== 'undefined') {
+        if (MathJax.typesetPromise) {
+            MathJax.typesetPromise().catch(err => console.log('MathJax typeset error:', err));
+        } else if (MathJax.typeset) {
+            MathJax.typeset();
+        }
+    } else {
+        // MathJax not loaded yet, retry after delay
+        setTimeout(typesetMath, 200);
     }
 }
 
