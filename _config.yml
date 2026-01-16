@@ -1,0 +1,22 @@
+title: Luciano's Re
+description: Monthly Resolve & Retrospect
+baseurl: ""
+url: "https://xaicul.github.io"
+
+# Build settings
+theme: null
+plugins: []
+
+# Collections for posts
+collections:
+  posts:
+    output: true
+    permalink: /re/:year-:month/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

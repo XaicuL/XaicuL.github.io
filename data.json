@@ -1,0 +1,52 @@
+{
+  "profile": {
+    "name_kr": "전현준",
+    "name_en": "HYUNJUN Jeon",
+    "subtitle_kr": "AI & Neuroscience Explorer",
+    "subtitle_en": "AI & Neuroscience Explorer",
+    "bio_kr": "고개를 들어 세계를 보겠습니다. 세계라는 무대에서 만나뵙겠습니다.<br><br>저는 인공지능과 인류의 뇌를 공부하고 있는 전현준입니다.",
+    "bio_en": "I will lift my head and look at the world. I will stand on the stage called the world.<br><br>I am Hyunjun Jeon, studying artificial intelligence and the human brain."
+  },
+  "journey": [
+    {
+      "year": "2025 - Present",
+      "title_kr": "Independent Research",
+      "title_en": "Independent Research",
+      "desc_kr": "인공지능과 뇌과학의 교차점에서 새로운 가능성을 탐구하고 있습니다.",
+      "desc_en": "Exploring new possibilities at the intersection of AI and neuroscience.",
+      "tags": [
+        "AI",
+        "Neuroscience",
+        "Research"
+      ]
+    },
+    {
+      "year": "2024",
+      "title_kr": "The Beginning",
+      "title_en": "The Beginning",
+      "desc_kr": "AI의 세계에 첫 발을 내디뎠습니다. 끝없는 호기심이 여정의 시작이었습니다.",
+      "desc_en": "Took my first steps into the world of AI. Endless curiosity marked the start of this journey.",
+      "tags": [
+        "Learning",
+        "Exploration"
+      ]
+    }
+  ],
+  "work": [
+    {
+      "year": "Coming Soon",
+      "title": "Research Papers",
+      "desc_kr": "현재 진행 중인 연구가 곧 공개될 예정입니다.",
+      "desc_en": "Research in progress. Coming soon.",
+      "tags": [
+        "Paper"
+      ]
+    }
+  ],
+  "contact": {
+    "email": "hyunjun050915@gmail.com",
+    "github": "XaicuL",
+    "github_url": "https://github.com/XaicuL"
+  },
+  "re": []
+}

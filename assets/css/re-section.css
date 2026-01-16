@@ -1,0 +1,100 @@
+/* ==================================
+   re-section.css - Monthly Retrospective Section
+   ================================== */
+
+.re-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scroll-snap-type: x mandatory;
+}
+
+.re-card {
+    min-width: 280px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    scroll-snap-align: start;
+}
+
+.re-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.re-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 8px 40px var(--accent-dim);
+}
+
+.re-month {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 8px;
+}
+
+.re-status {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.re-content {
+    margin-top: 24px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.re-card.active .re-content {
+    display: block;
+}
+
+.re-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.re-section-title::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.re-text {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.re-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 20px 0;
+}
+
+.re-card-link {
+    text-decoration: none;
+    display: block;
+}
+
+.re-title {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+}
