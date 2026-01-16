@@ -12,9 +12,9 @@
 
 /* Re Filter */
 .re-filter-container {
-    margin-bottom: 24px;
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 30px;
 }
 
 .re-filter {
@@ -24,10 +24,15 @@
     padding: 8px 16px;
     border-radius: 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.875rem;
-    outline: none;
+    font-size: 0.85rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 5 3 3 3-3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
 }
 
 .re-filter:hover {
