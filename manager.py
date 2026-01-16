@@ -206,6 +206,11 @@ function updateContent() {{
     }}
     renderTimeline(journeyData, 'journeyTimeline');
     renderTimeline(workData, 'workTimeline');
+    
+    // Re-render MathJax after dynamic content is loaded
+    if (typeof MathJax !== 'undefined' && MathJax.typeset) {{
+        MathJax.typeset();
+    }}
 }}
 
 async function fetchUpdates() {{
