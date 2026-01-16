@@ -212,12 +212,15 @@ function updateContent() {{
 }}
 
 function typesetMath() {{
-    if (typeof MathJax !== 'undefined') {{
-        if (MathJax.typesetPromise) {{
-            MathJax.typesetPromise().catch(err => console.log('MathJax typeset error:', err));
-        }} else if (MathJax.typeset) {{
-            MathJax.typeset();
+    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {{
+        // Clear previous MathJax rendering
+        const workEl = document.getElementById('workTimeline');
+        if (workEl && MathJax.typesetClear) {{
+            MathJax.typesetClear([workEl]);
         }}
+        MathJax.typesetPromise([workEl]).catch(err => console.log('MathJax:', err));
+    }} else if (typeof MathJax !== 'undefined' && MathJax.typeset) {{
+        MathJax.typeset();
     }} else {{
         // MathJax not loaded yet, retry after delay
         setTimeout(typesetMath, 200);
