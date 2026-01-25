@@ -415,53 +415,59 @@ function generateReCards() {{
     const grid = document.getElementById('reGrid');
     const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
     
-    // Flatten data for easier filtering and rendering
-    const allItems = reData.flatMap(yearGroup => 
-        yearGroup.items.map(item => ({{...item, year: yearGroup.year}}))
-    );
-    
     const filteredData = activeFilter === 'all' 
-        ? allItems 
-        : allItems.filter(item => item.year === activeFilter);
+        ? reData 
+        : reData.filter(item => item.month.startsWith(activeFilter));
 
-    grid.innerHTML = filteredData.map((item, idx) => `
-        <div class="re-card" onclick="toggleReCard(${{idx}})" data-idx="${{idx}}">
-            <div class="re-header">
-                <div class="re-meta">
-                    <span class="re-date">${{item.date}}</span>
-                    <span class="re-category">${{item.category || 'Essay'}}</span>
-                </div>
-                <h3 class="re-title">${{lang === 'KR' ? (item.title_kr || item.title) : (item.title_en || item.title)}}</h3>
-            </div>
-            <div class="re-content">
-                <div class="re-text">
-                    ${{lang === 'KR' ? item.desc_kr : item.desc_en}}
+    if (isLocal) {{
+        grid.innerHTML = filteredData.map((item, idx) => `
+            <div class="re-card" onclick="toggleReCard(${{idx}})" data-idx="${{idx}}">
+                <div class="re-month">${{item.month}}</div>
+                <div class="re-title">${{item.title}}</div>
+                <div class="re-status">${{lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand'}}</div>
+                <div class="re-content">
+                    <div class="re-text">
+                        ${{lang === 'KR' ? (item.desc_kr || item.desc) : (item.desc_en || item.desc || item.desc_kr)}}
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    }} else {{
+        // For non-local, just show simple link cards if configured, but user wants content.
+        // We will use the same card design for now to keep it consistent.
+        grid.innerHTML = filteredData.map((item, idx) => `
+            <div class="re-card" onclick="toggleReCard(${{idx}})" data-idx="${{idx}}">
+                <div class="re-month">${{item.month}}</div>
+                <div class="re-title">${{item.title}}</div>
+                <div class="re-status">${{lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand'}}</div>
+                <div class="re-content">
+                    <div class="re-text">
+                         ${{lang === 'KR' ? (item.desc_kr || item.desc) : (item.desc_en || item.desc || item.desc_kr)}}
+                    </div>
+                </div>
+                ${{item.url && item.url !== '#' ? `<a href="${{item.url}}" target="_blank" class="re-link">Read full review →</a>` : ''}}
+            </div>
+        `).join('');
+    }}
     
-    // Update filter dropdown options
     updateFilterOptions();
 }}
 
 function updateFilterOptions() {{
-    const filterSelect = document.getElementById('reYearFilter');
-    if (!filterSelect) return;
+    const filter = document.getElementById('reYearFilter');
+    if (!filter) return;
     
-    // Get unique years
-    const years = [...new Set(reData.map(y => y.year))].sort().reverse();
+    const years = [...new Set(reData.map(item => item.month.split('.')[0]))].sort().reverse();
+    const currentOptions = Array.from(filter.options).map(opt => opt.value);
     
-    // Preserve current selection or default to 'all'
-    const currentVal = filterSelect.value || 'all';
-    
-    let html = '<option value="all">All Years</option>';
     years.forEach(year => {{
-        html += `<option value="${{year}}">${{year}}</option>`;
+        if (!currentOptions.includes(year)) {{
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year + ' Year';
+            filter.appendChild(option);
+        }}
     }});
-    
-    filterSelect.innerHTML = html;
-    filterSelect.value = currentVal;
 }}
 
 function filterReCards() {{
@@ -471,8 +477,26 @@ function filterReCards() {{
 }}
 
 function toggleReCard(idx) {{
-    // Optional: Add expand/collapse logic here if needed
-    // currently cards show content by default
+    const cards = document.querySelectorAll('.re-card');
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
+    
+    cards.forEach((card, i) => {{
+        if (i === idx) {{
+            card.classList.toggle('active');
+            const status = card.querySelector('.re-status');
+            if (status) {{
+                status.textContent = card.classList.contains('active')
+                    ? (lang === 'KR' ? '클릭하여 접기' : 'Click to collapse')
+                    : (lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand');
+            }}
+        }} else {{
+            card.classList.remove('active');
+            const status = card.querySelector('.re-status');
+            if (status) {{
+                status.textContent = lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand';
+            }}
+        }}
+    }});
 }}
 '''
 
