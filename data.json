@@ -21,6 +21,28 @@
       ]
     },
     {
+      "year": "2026.01 - Present",
+      "title_kr": "MIT 6.0002 (OCW)",
+      "title_en": "MIT 6.0002 (OCW)",
+      "desc_kr": "Computational Thinking and Data Science",
+      "desc_en": "Computational Thinking and Data Science",
+      "tags": [
+        "Data Science",
+        "Python"
+      ]
+    },
+    {
+      "year": "2025.11 - 2026.01",
+      "title_kr": "MIT 6.0001 (OCW)",
+      "title_en": "MIT 6.0001 (OCW)",
+      "desc_kr": "Introduction to CS and Programming in Python",
+      "desc_en": "Introduction to CS and Programming in Python",
+      "tags": [
+        "CS",
+        "Python"
+      ]
+    },
+    {
       "year": "2024",
       "title_kr": "The Beginning",
       "title_en": "The Beginning",
