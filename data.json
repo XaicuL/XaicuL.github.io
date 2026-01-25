@@ -31,22 +31,11 @@
       ]
     },
     {
-      "year": "2024",
-      "title_kr": "The Beginning",
-      "title_en": "The Beginning",
-      "desc_kr": "AI의 세계에 첫 발을 내디뎠습니다. 끝없는 호기심이 여정의 시작이었습니다.",
-      "desc_en": "Took my first steps into the world of AI. Endless curiosity marked the start of this journey.",
-      "tags": [
-        "Learning",
-        "Exploration"
-      ]
-    },
-    {
       "year": "2021 - 2024",
       "title_kr": "충북공업고등학교",
       "title_en": "Chungbuk Technical High School",
-      "desc_kr": "성실하게 고등학교 과정을 마쳤습니다.",
-      "desc_en": "Completed high school education.",
+      "desc_kr": "",
+      "desc_en": "",
       "tags": [
         "Education"
       ]
