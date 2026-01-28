@@ -228,6 +228,14 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
+    if (key === 'v') {
+        if (!isInput || isPaletteOpen) {
+            e.preventDefault();
+            downloadVCard();
+            if (isPaletteOpen) closeCommandPalette();
+        }
+    }
+
     if (!isPaletteOpen && !isInput) {
         if (key === 'j') {
             const currentIdx = sections.indexOf(getCurrentSection());
@@ -252,3 +260,22 @@ document.addEventListener('DOMContentLoaded', () => {
         generateReCards();
     }
 });
+
+function downloadVCard() {
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:HYUNJUN Jeon
+EMAIL;TYPE=INTERNET:hyunjun050915@gmail.com
+URL:https://xaicul.github.io/
+X-SOCIALPROFILE;type=github:https://github.com/XaicuL
+END:VCARD`;
+
+    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'HYUNJUN_Jeon.vcf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

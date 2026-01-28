@@ -363,6 +363,14 @@ document.addEventListener('keydown', (e) => {{
         }}
     }}
 
+    if (key === 'v') {{
+        if (!isInput || isPaletteOpen) {{
+            e.preventDefault();
+            downloadVCard();
+            if (isPaletteOpen) closeCommandPalette();
+        }}
+    }}
+
     if (!isPaletteOpen && !isInput) {{
         if (key === 'j') {{
             const currentIdx = sections.indexOf(getCurrentSection());
@@ -387,6 +395,25 @@ document.addEventListener('DOMContentLoaded', () => {{
         generateReCards();
     }}
 }});
+
+function downloadVCard() {{
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:{profile["name_en"]}
+EMAIL;TYPE=INTERNET:{contact.get("email", "")}
+URL:https://xaicul.github.io/
+X-SOCIALPROFILE;type=github:{contact.get("github_url", "https://github.com/XaicuL")}
+END:VCARD`;
+
+    const blob = new Blob([vcard], {{ type: 'text/vcard;charset=utf-8;' }});
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', '{profile["name_en"].replace(" ", "_")}.vcf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}}
 '''
     
     with open(os.path.join(JS_DIR, "main.js"), "w", encoding="utf-8") as f:
