@@ -262,6 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function downloadVCard() {
+    // Scroll to contact section first for visual feedback
+    scrollToSection('contact');
+
     const vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:HYUNJUN Jeon
