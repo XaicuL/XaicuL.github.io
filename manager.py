@@ -625,19 +625,36 @@ def sync_reviews(data):
                         retrospect_content = f.read().strip().replace('\n', '<br>')
             
             if resolve_content or retrospect_content:
+                # Resolve 파일의 첫 줄을 제목으로 추출 (있을 경우)
+                title = "다짐과 회고 (Resolve & Retrospect)"
+                final_resolve = resolve_content
+                
+                if resolve_content:
+                    lines = resolve_content.split('<br>')
+                    if len(lines) > 0 and lines[0].strip():
+                        # 첫 줄이 너무 길지 않으면 제목으로 사용 (보통 제목은 짧음)
+                        potential_title = lines[0].strip()
+                        if len(potential_title) < 100:
+                            title = potential_title
+                            # 제목으로 쓴 줄은 본문에서 제외 (그 다음 빈 줄들도 건너뜀)
+                            remaining_lines = lines[1:]
+                            while remaining_lines and not remaining_lines[0].strip():
+                                remaining_lines = remaining_lines[1:]
+                            final_resolve = '<br>'.join(remaining_lines)
+
                 # 디자인 일관성을 위해 두 내용을 하나로 합침
                 combined_desc = ""
-                if resolve_content:
-                    combined_desc += f"<strong>[다짐 (Resolve)]</strong><br>{resolve_content}<br><br>"
+                if final_resolve:
+                    combined_desc += f"<strong>[다짐 (Resolve)]</strong><br>{final_resolve}<br><br>"
                 if retrospect_content:
                     combined_desc += f"<strong>[회고 (Retrospect)]</strong><br>{retrospect_content}"
                 
                 re_items.append({
                     "month": f"{year}.{month}",
                     "url": "#",
-                    "title": "다짐과 회고 (Resolve & Retrospect)",
-                    "desc_kr": combined_desc,
-                    "desc_en": ""  # 영어 버전은 필요시 추가
+                    "title": title,
+                    "desc_kr": combined_desc.strip(),
+                    "desc_en": "" 
                 })
     
     if re_items:
