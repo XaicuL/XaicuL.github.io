@@ -27,6 +27,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.join(SCRIPT_DIR, "assets")
 JS_DIR = os.path.join(ASSETS_DIR, "js")
 POSTS_DIR = os.path.join(SCRIPT_DIR, "_posts")
+REVIEW_DIR = os.path.join(SCRIPT_DIR, "review")
 DATA_FILE = os.path.join(SCRIPT_DIR, "data.json")
 
 # ═══════════════════════════════════════════════════════════════
@@ -592,8 +593,62 @@ def generate_index_html(data):
     print("✅ index.html 링크 업데이트 완료")
 
 
+def sync_reviews(data):
+    """review 폴더의 마크다운 파일들로부터 Re 섹션 업데이트"""
+    if not os.path.exists(REVIEW_DIR):
+        return
+    
+    re_items = []
+    # review/{year}/{month} 폴더 구조 탐색
+    if not os.path.exists(REVIEW_DIR): return
+
+    years = [d for d in os.listdir(REVIEW_DIR) if os.path.isdir(os.path.join(REVIEW_DIR, d)) and d.isdigit()]
+    for year in sorted(years, reverse=True):
+        year_path = os.path.join(REVIEW_DIR, year)
+        
+        months = [d for d in os.listdir(year_path) if os.path.isdir(os.path.join(year_path, d)) and d.isdigit()]
+        for month in sorted(months, reverse=True):
+            month_path = os.path.join(year_path, month)
+            
+            resolve_content = ""
+            retrospect_content = ""
+            
+            # 파일 목록 확인
+            files = os.listdir(month_path)
+            for filename in files:
+                file_path = os.path.join(month_path, filename)
+                if filename.endswith("_Resolve.md"):
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        resolve_content = f.read().strip().replace('\n', '<br>')
+                elif filename.endswith("_Retrospect.md"):
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        retrospect_content = f.read().strip().replace('\n', '<br>')
+            
+            if resolve_content or retrospect_content:
+                # 디자인 일관성을 위해 두 내용을 하나로 합침
+                combined_desc = ""
+                if resolve_content:
+                    combined_desc += f"<strong>[다짐 (Resolve)]</strong><br>{resolve_content}<br><br>"
+                if retrospect_content:
+                    combined_desc += f"<strong>[회고 (Retrospect)]</strong><br>{retrospect_content}"
+                
+                re_items.append({
+                    "month": f"{year}.{month}",
+                    "url": "#",
+                    "title": "다짐과 회고 (Resolve & Retrospect)",
+                    "desc_kr": combined_desc,
+                    "desc_en": ""  # 영어 버전은 필요시 추가
+                })
+    
+    if re_items:
+        data["re"] = re_items
+        print(f"🔄 {len(re_items)}개의 회고 데이터를 review 폴더에서 동기화했습니다.")
+
+
 def rebuild_all(data):
     """모든 파일 재생성"""
+    sync_reviews(data)
+    save_data(data)
     generate_main_js(data)
     generate_re_section_js(data)
     generate_index_html(data)
@@ -800,60 +855,19 @@ def parse_date_input():
 def manage_re(data):
     """Re 섹션 관리"""
     print("\n" + "─" * 40)
-    print("📝 Re (다짐 & 회고) 관리")
+    print("📝 Re 섹션 관리 (Markdown 동기화)")
+    print(f"현재 위치: {REVIEW_DIR}")
+    print("구조: review/{year}/{month}/Jan_Resolve.md 등")
     print("─" * 40)
-    
-    for i, item in enumerate(data['re']):
-        print(f"{i+1}. [{item['month']}] {item['title']}")
-    
-    print("\na. 새 항목 추가")
-    print("d. 항목 삭제")
-    print("e. 항목 수정")
+    print("1. 지금 동기화 및 반영")
     print("0. 뒤로")
     
-    choice = input("\n선택: ").strip().lower()
+    choice = input("\n선택: ").strip()
     
-    if choice == "a":
-        date_str, month = parse_date_input()
-        
-        # 이미 존재하는지 확인
-        if any(item['month'] == month for item in data['re']):
-            print(f"⚠️ {month}이(가) 이미 존재합니다")
-            return
-        
-        new_item = {
-            "month": month,
-            "url": f"/re/{date_str[:7].replace('.', '-')}/",
-            "title": "다짐과 회고",
-            "resolve": input("다짐 내용: ").strip(),
-            "retrospect": input("회고 내용: ").strip()
-        }
-        
-        # 맨 앞에 추가 (최신순)
-        data['re'].insert(0, new_item)
-        
-        # Jekyll 포스트 생성
-        create_jekyll_post(date_str, month, new_item)
-        
-        save_data(data)
+    if choice == "1":
         rebuild_all(data)
-        
-    elif choice == "d":
-        idx = int(input("삭제할 번호: ").strip()) - 1
-        if 0 <= idx < len(data['re']):
-            del data['re'][idx]
-            save_data(data)
-            rebuild_all(data)
-            
-    elif choice == "e":
-        idx = int(input("수정할 번호: ").strip()) - 1
-        if 0 <= idx < len(data['re']):
-            item = data['re'][idx]
-            print(f"\n현재: [{item['month']}]")
-            item['resolve'] = input(f"다짐: ").strip() or item['resolve']
-            item['retrospect'] = input(f"회고: ").strip() or item['retrospect']
-            save_data(data)
-            rebuild_all(data)
+    elif choice == "0":
+        return
 
 
 def create_jekyll_post(date_str, month, item):
