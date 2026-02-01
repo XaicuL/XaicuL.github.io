@@ -454,7 +454,7 @@ function generateReCards() {{
         grid.innerHTML = filteredData.map((item, idx) => `
             <div class="re-card" onclick="toggleReCard(${{idx}})" data-idx="${{idx}}">
                 <div class="re-month">${{item.month}}</div>
-                <div class="re-title">${{item.title}}</div>
+                <div class="re-title">${{lang === 'KR' ? item.title : (item.title_en || item.title)}}</div>
                 <div class="re-status">${{lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand'}}</div>
                 <div class="re-content">
                     <div class="re-text">
@@ -464,12 +464,10 @@ function generateReCards() {{
             </div>
         `).join('');
     }} else {{
-        // For non-local, just show simple link cards if configured, but user wants content.
-        // We will use the same card design for now to keep it consistent.
         grid.innerHTML = filteredData.map((item, idx) => `
             <div class="re-card" onclick="toggleReCard(${{idx}})" data-idx="${{idx}}">
                 <div class="re-month">${{item.month}}</div>
-                <div class="re-title">${{item.title}}</div>
+                <div class="re-title">${{lang === 'KR' ? item.title : (item.title_en || item.title)}}</div>
                 <div class="re-status">${{lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand'}}</div>
                 <div class="re-content">
                     <div class="re-text">
@@ -595,71 +593,100 @@ def generate_index_html(data):
 
 def sync_reviews(data):
     """review 폴더의 마크다운 파일들로부터 Re 섹션 업데이트"""
+    import re
     if not os.path.exists(REVIEW_DIR):
         return
     
-    re_items = []
-    # review/{year}/{month} 폴더 구조 탐색
-    if not os.path.exists(REVIEW_DIR): return
-
-    years = [d for d in os.listdir(REVIEW_DIR) if os.path.isdir(os.path.join(REVIEW_DIR, d)) and d.isdigit()]
-    for year in sorted(years, reverse=True):
-        year_path = os.path.join(REVIEW_DIR, year)
+    def simple_markdown_to_html(text):
+        # 1. LaTeX 보호 (특수 기호 변환 방지)
+        math_blocks = []
+        def save_math(match):
+            placeholder = f"__MATH_BLOCK_{len(math_blocks)}__"
+            math_blocks.append(match.group(0))
+            return placeholder
         
-        months = [d for d in os.listdir(year_path) if os.path.isdir(os.path.join(year_path, d)) and d.isdigit()]
-        for month in sorted(months, reverse=True):
-            month_path = os.path.join(year_path, month)
+        # $$ ... $$ 또는 $ ... $ 보호
+        text = re.sub(r'(\$\$.*?\$\$|\$.*?\$)', save_math, text, flags=re.DOTALL)
+        
+        # 2. 마크다운 기본 문법
+        # 볼드 (**text**) -> <strong>text</strong>
+        text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+        # 취소선 (~~text~~) -> <del>text</del>
+        text = re.sub(r'~~(.*?)~~', r'<del>\1</del>', text)
+        
+        # 3. 줄바꿈 처리
+        # 연속된 두 줄바꿈은 단락 구분용 <br><br>
+        text = text.replace('\n\n', '__PARAGRAPH_BREAK__')
+        # 단일 줄바꿈은 <br>
+        text = text.replace('\n', '<br>')
+        text = text.replace('__PARAGRAPH_BREAK__', '<br><br>')
+        
+        # 4. LaTeX 복구
+        for i, math in enumerate(math_blocks):
+            text = text.replace(f"__MATH_BLOCK_{i}__", math)
             
-            # 파일 목록 확인
-            files = os.listdir(month_path)
+        return text.strip()
+    
+    re_items_map = {} # key: (year, month, type), value: {title_kr, title_en, desc_kr, desc_en}
+    
+    langs = ['KR', 'EN']
+    for lang in langs:
+        lang_dir = os.path.join(REVIEW_DIR, lang)
+        if not os.path.exists(lang_dir): continue
+        
+        years = [d for d in os.listdir(lang_dir) if os.path.isdir(os.path.join(lang_dir, d)) and d.isdigit()]
+        for year in years:
+            year_path = os.path.join(lang_dir, year)
+            months = [d for d in os.listdir(year_path) if os.path.isdir(os.path.join(year_path, d)) and d.isdigit()]
+            for month in months:
+                month_path = os.path.join(year_path, month)
+                files = os.listdir(month_path)
+                
+                for f_type in ['Resolve', 'Retrospect']:
+                    f_name = next((f for f in files if f.endswith(f"_{f_type}.md")), None)
+                    if f_name:
+                        with open(os.path.join(month_path, f_name), 'r', encoding='utf-8') as f:
+                            content = f.read().strip()
+                            lines = content.split('\n')
+                            
+                            title = lines[0].strip() if lines and len(lines[0].strip()) < 100 else (f_type if lang=='EN' else ('다짐' if f_type=='Resolve' else '회고'))
+                            body = '\n'.join(lines[1:]).strip() if lines and len(lines[0].strip()) < 100 else content
+                            
+                            key = (year, month, f_type)
+                            if key not in re_items_map:
+                                re_items_map[key] = {"month": f"{year}.{month}", "title_kr": "", "title_en": "", "desc_kr": "", "desc_en": ""}
+                            
+                            if lang == 'KR':
+                                re_items_map[key]["title_kr"] = title
+                                re_items_map[key]["desc_kr"] = simple_markdown_to_html(body)
+                            else:
+                                re_items_map[key]["title_en"] = title
+                                re_items_map[key]["desc_en"] = simple_markdown_to_html(body)
 
-            # Resolve 파일 처리
-            resolve_file = next((f for f in files if f.endswith("_Resolve.md")), None)
-            if resolve_file:
-                with open(os.path.join(month_path, resolve_file), "r", encoding="utf-8") as f:
-                    content = f.read().strip()
-                    lines = content.split('\n')
-                    
-                    title = "다짐 (Resolve)"
-                    desc = content
-                    
-                    if lines and len(lines[0].strip()) < 100:
-                        title = lines[0].strip()
-                        desc = '\n'.join(lines[1:]).strip()
-                    
-                    re_items.append({
-                        "month": f"{year}.{month}",
-                        "url": "#",
-                        "title": title,
-                        "desc_kr": desc.replace('\n', '<br>'),
-                        "desc_en": ""
-                    })
-
-            # Retrospect 파일 처리
-            retrospect_file = next((f for f in files if f.endswith("_Retrospect.md")), None)
-            if retrospect_file:
-                with open(os.path.join(month_path, retrospect_file), "r", encoding="utf-8") as f:
-                    content = f.read().strip()
-                    lines = content.split('\n')
-                    
-                    title = f"{month}월 회고 (Retrospect)"
-                    desc = content
-                    
-                    if lines and len(lines[0].strip()) < 100:
-                        title = lines[0].strip()
-                        desc = '\n'.join(lines[1:]).strip()
-                        
-                    re_items.append({
-                        "month": f"{year}.{month}",
-                        "url": "#",
-                        "title": title,
-                        "desc_kr": desc.replace('\n', '<br>'),
-                        "desc_en": ""
-                    })
+    # Sort items by month (desc) and then type (Resolve first)
+    sorted_keys = sorted(re_items_map.keys(), key=lambda x: (x[0], x[1], 0 if x[2]=='Resolve' else 1), reverse=True)
+    
+    re_items = []
+    for key in sorted_keys:
+        item = re_items_map[key]
+        # Fill missing values if one language is missing
+        if not item["title_en"]: item["title_en"] = item.get("title_kr", "Review")
+        if not item["title_kr"]: item["title_kr"] = item.get("title_en", "회고")
+        if not item["desc_en"]: item["desc_en"] = item.get("desc_kr", "Coming soon...")
+        if not item["desc_kr"]: item["desc_kr"] = item.get("desc_en", "준비 중입니다...")
+        
+        re_items.append({
+            "month": item["month"],
+            "url": "#",
+            "title": item["title_kr"],
+            "title_en": item["title_en"],
+            "desc_kr": item["desc_kr"],
+            "desc_en": item["desc_en"]
+        })
     
     if re_items:
         data["re"] = re_items
-        print(f"🔄 {len(re_items)}개의 회고 데이터를 review 폴더에서 동기화했습니다.")
+        print(f"🔄 {len(re_items)}개의 회고 데이터를 KR/EN 폴더에서 동기화했습니다.")
 
 
 def rebuild_all(data):
