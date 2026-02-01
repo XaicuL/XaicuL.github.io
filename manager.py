@@ -610,52 +610,52 @@ def sync_reviews(data):
         for month in sorted(months, reverse=True):
             month_path = os.path.join(year_path, month)
             
-            resolve_content = ""
-            retrospect_content = ""
-            
             # 파일 목록 확인
             files = os.listdir(month_path)
-            for filename in files:
-                file_path = os.path.join(month_path, filename)
-                if filename.endswith("_Resolve.md"):
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        resolve_content = f.read().strip().replace('\n', '<br>')
-                elif filename.endswith("_Retrospect.md"):
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        retrospect_content = f.read().strip().replace('\n', '<br>')
-            
-            if resolve_content or retrospect_content:
-                # Resolve 파일의 첫 줄을 제목으로 추출 (있을 경우)
-                title = "다짐과 회고 (Resolve & Retrospect)"
-                final_resolve = resolve_content
-                
-                if resolve_content:
-                    lines = resolve_content.split('<br>')
-                    if len(lines) > 0 and lines[0].strip():
-                        # 첫 줄이 너무 길지 않으면 제목으로 사용 (보통 제목은 짧음)
-                        potential_title = lines[0].strip()
-                        if len(potential_title) < 100:
-                            title = potential_title
-                            # 제목으로 쓴 줄은 본문에서 제외 (그 다음 빈 줄들도 건너뜀)
-                            remaining_lines = lines[1:]
-                            while remaining_lines and not remaining_lines[0].strip():
-                                remaining_lines = remaining_lines[1:]
-                            final_resolve = '<br>'.join(remaining_lines)
 
-                # 디자인 일관성을 위해 두 내용을 하나로 합침
-                combined_desc = ""
-                if final_resolve:
-                    combined_desc += f"<strong>[다짐 (Resolve)]</strong><br>{final_resolve}<br><br>"
-                if retrospect_content:
-                    combined_desc += f"<strong>[회고 (Retrospect)]</strong><br>{retrospect_content}"
-                
-                re_items.append({
-                    "month": f"{year}.{month}",
-                    "url": "#",
-                    "title": title,
-                    "desc_kr": combined_desc.strip(),
-                    "desc_en": "" 
-                })
+            # Resolve 파일 처리
+            resolve_file = next((f for f in files if f.endswith("_Resolve.md")), None)
+            if resolve_file:
+                with open(os.path.join(month_path, resolve_file), "r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                    lines = content.split('\n')
+                    
+                    title = "다짐 (Resolve)"
+                    desc = content
+                    
+                    if lines and len(lines[0].strip()) < 100:
+                        title = lines[0].strip()
+                        desc = '\n'.join(lines[1:]).strip()
+                    
+                    re_items.append({
+                        "month": f"{year}.{month}",
+                        "url": "#",
+                        "title": title,
+                        "desc_kr": desc.replace('\n', '<br>'),
+                        "desc_en": ""
+                    })
+
+            # Retrospect 파일 처리
+            retrospect_file = next((f for f in files if f.endswith("_Retrospect.md")), None)
+            if retrospect_file:
+                with open(os.path.join(month_path, retrospect_file), "r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                    lines = content.split('\n')
+                    
+                    title = f"{month}월 회고 (Retrospect)"
+                    desc = content
+                    
+                    if lines and len(lines[0].strip()) < 100:
+                        title = lines[0].strip()
+                        desc = '\n'.join(lines[1:]).strip()
+                        
+                    re_items.append({
+                        "month": f"{year}.{month}",
+                        "url": "#",
+                        "title": title,
+                        "desc_kr": desc.replace('\n', '<br>'),
+                        "desc_en": ""
+                    })
     
     if re_items:
         data["re"] = re_items
