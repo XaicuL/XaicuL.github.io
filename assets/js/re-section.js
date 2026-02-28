@@ -18,34 +18,13 @@ function generateReCards() {
         ? reData 
         : reData.filter(item => item.month.startsWith(activeFilter));
 
-    if (isLocal) {
-        grid.innerHTML = filteredData.map((item, idx) => `
-            <div class="re-card" onclick="toggleReCard(${idx})" data-idx="${idx}">
-                <div class="re-month">${item.month}</div>
-                <div class="re-title">${lang === 'KR' ? item.title : (item.title_en || item.title)}</div>
-                <div class="re-status">${lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand'}</div>
-                <div class="re-content">
-                    <div class="re-text">
-                        ${lang === 'KR' ? (item.desc_kr || item.desc) : (item.desc_en || item.desc || item.desc_kr)}
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    } else {
-        grid.innerHTML = filteredData.map((item, idx) => `
-            <div class="re-card" onclick="toggleReCard(${idx})" data-idx="${idx}">
-                <div class="re-month">${item.month}</div>
-                <div class="re-title">${lang === 'KR' ? item.title : (item.title_en || item.title)}</div>
-                <div class="re-status">${lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand'}</div>
-                <div class="re-content">
-                    <div class="re-text">
-                         ${lang === 'KR' ? (item.desc_kr || item.desc) : (item.desc_en || item.desc || item.desc_kr)}
-                    </div>
-                </div>
-                ${item.url && item.url !== '#' ? `<a href="${item.url}" target="_blank" class="re-link">Read full review →</a>` : ''}
-            </div>
-        `).join('');
-    }
+    grid.innerHTML = filteredData.map((item, idx) => `
+        <div class="re-card" onclick="openReModal(${idx})" data-idx="${idx}">
+            <div class="re-month">${item.month}</div>
+            <div class="re-title">${lang === 'KR' ? item.title : (item.title_en || item.title)}</div>
+            <div class="re-status">${lang === 'KR' ? '클릭하여 읽기' : 'Click to read'}</div>
+        </div>
+    `).join('');
     
     updateFilterOptions();
 }
@@ -73,25 +52,48 @@ function filterReCards() {
     generateReCards();
 }
 
-function toggleReCard(idx) {
-    const cards = document.querySelectorAll('.re-card');
+function openReModal(idx) {
     const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
+    const item = activeFilter === 'all' ? reData[idx] : reData.filter(d => d.month.startsWith(activeFilter))[idx];
     
-    cards.forEach((card, i) => {
-        if (i === idx) {
-            card.classList.toggle('active');
-            const status = card.querySelector('.re-status');
-            if (status) {
-                status.textContent = card.classList.contains('active')
-                    ? (lang === 'KR' ? '클릭하여 접기' : 'Click to collapse')
-                    : (lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand');
-            }
-        } else {
-            card.classList.remove('active');
-            const status = card.querySelector('.re-status');
-            if (status) {
-                status.textContent = lang === 'KR' ? '클릭하여 펼치기' : 'Click to expand';
-            }
-        }
-    });
+    if (!item) return;
+
+    const overlay = document.getElementById('reModalOverlay');
+    const contentArea = document.getElementById('reModalContent');
+    
+    const textContent = lang === 'KR' ? (item.desc_kr || item.desc) : (item.desc_en || item.desc || item.desc_kr);
+    const titleText = lang === 'KR' ? item.title : (item.title_en || item.title);
+    
+    contentArea.innerHTML = `
+        <div class="re-modal-month">${item.month}</div>
+        <h2 class="re-modal-title">${titleText}</h2>
+        <div class="re-modal-body">
+            ${textContent}
+        </div>
+        ${(!isLocal && item.url && item.url !== '#') ? `<a href="${item.url}" target="_blank" class="re-link" style="margin-top: 40px; display: inline-block;">Read full review →</a>` : ''}
+    `;
+
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+    // Re-render MathJax inside the modal
+    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+        MathJax.typesetPromise([contentArea]).catch(err => console.log('MathJax:', err));
+    }
 }
+
+function closeReModal(event) {
+    const overlay = document.getElementById('reModalOverlay');
+    overlay.classList.remove('show');
+    document.body.style.overflow = 'auto'; // Restore background scrolling
+}
+
+// Add Escape key listener to close modal
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const overlay = document.getElementById('reModalOverlay');
+        if (overlay && overlay.classList.contains('show')) {
+            closeReModal();
+        }
+    }
+});

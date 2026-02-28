@@ -214,6 +214,16 @@
         </footer>
     </main>
 
+    <!-- Re Section Arc-style Modal -->
+    <div class="re-modal-overlay" id="reModalOverlay" onclick="closeReModal(event)">
+        <div class="re-modal-window" id="reModalWindow" onclick="event.stopPropagation()">
+            <button class="re-modal-close" onclick="closeReModal()" aria-label="Close Modal">✕</button>
+            <div class="re-modal-content-area" id="reModalContent">
+                <!-- Content injected dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
     <div class="cmd-palette-overlay" id="cmdPalette" onclick="closeCommandPalette(event)">
         <div class="cmd-palette" onclick="event.stopPropagation()">
             <div class="cmd-input-wrapper">

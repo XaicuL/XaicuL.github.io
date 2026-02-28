@@ -57,11 +57,6 @@
     transform: translateY(-4px);
 }
 
-.re-card.active {
-    border-color: var(--accent);
-    box-shadow: 0 8px 40px var(--accent-dim);
-}
-
 .re-month {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.25rem;
@@ -75,56 +70,184 @@
     color: var(--text-tertiary);
 }
 
-.re-content {
-    margin-top: 24px;
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.re-card.active .re-content {
-    display: block;
-}
-
-.re-section-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.re-section-title::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: var(--accent);
-    border-radius: 2px;
-}
-
-.re-text {
-    color: var(--text-secondary);
-    font-size: 0.9375rem;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.re-divider {
-    height: 1px;
-    background: var(--border-color);
-    margin: 20px 0;
-}
-
-.re-card-link {
-    text-decoration: none;
-    display: block;
-}
-
 .re-title {
     color: var(--text-secondary);
     font-size: 0.875rem;
     margin-bottom: 12px;
+}
+
+/* ---------------------------------
+   Arc-style Modal (Peek Window)
+   --------------------------------- */
+
+.re-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.re-modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.re-modal-window {
+    background: var(--bg-card);
+    width: 90%;
+    max-width: 1000px;
+    height: 85vh;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.re-modal-overlay.show .re-modal-window {
+    transform: scale(1) translateY(0);
+}
+
+.re-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.re-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+.re-modal-content-area {
+    padding: 60px 48px;
+    overflow-y: auto;
+    flex-grow: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.re-modal-content-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.re-modal-content-area::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+}
+
+/* Modal Internal Typography Styles */
+.re-modal-month {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.re-modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+    line-height: 1.3;
+}
+
+.re-modal-body {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+/* Markdown specific styles inside modal */
+.re-modal-body h3 {
+    margin-top: 40px;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.re-modal-body p {
+    margin-bottom: 24px;
+}
+
+.re-modal-body strong {
+    color: var(--text-primary);
+}
+
+.re-modal-body ul {
+    margin-left: 20px;
+    margin-bottom: 24px;
+}
+
+.re-modal-body li {
+    margin-bottom: 8px;
+}
+
+.re-modal-body del {
+    color: var(--text-tertiary);
+}
+
+.re-modal-body .blockquote, .re-modal-body blockquote {
+    border-left: 4px solid var(--accent);
+    padding-left: 16px;
+    margin-left: 0;
+    color: var(--text-secondary);
+    font-style: italic;
+    background: rgba(var(--accent-rgb, 20, 200, 255), 0.05);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Responsive constraints for modal */
+@media (max-width: 768px) {
+    .re-modal-window {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+    
+    .re-modal-content-area {
+        padding: 40px 24px;
+    }
+
+    .re-modal-close {
+        top: 16px;
+        right: 16px;
+    }
+
+    .re-modal-title {
+        font-size: 1.5rem;
+    }
 }
