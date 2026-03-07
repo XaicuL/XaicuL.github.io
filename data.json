@@ -9,7 +9,29 @@
   },
   "journey": [
     {
-      "year": "2026.01 - Present",
+      "year": "2026.03 - Present",
+      "title_kr": "CS50x",
+      "title_en": "CS50x",
+      "desc_kr": "An introduction to the intellectual enterprises of computer science and the art of programming.",
+      "desc_en": "An introduction to the intellectual enterprises of computer science and the art of programming.",
+      "tags": [
+        "CS",
+        "Programming"
+      ]
+    },
+    {
+      "year": "2026.03 - Present",
+      "title_kr": "MIT 6.042J (OCW)",
+      "title_en": "MIT 6.042J (OCW)",
+      "desc_kr": "Mathematics for Computer Science",
+      "desc_en": "Mathematics for Computer Science",
+      "tags": [
+        "Math",
+        "CS"
+      ]
+    },
+    {
+      "year": "2026.01 - 2026.03",
       "title_kr": "MIT 6.0002 (OCW)",
       "title_en": "MIT 6.0002 (OCW)",
       "desc_kr": "Computational Thinking and Data Science",
