@@ -67,8 +67,7 @@
     {
       "year": "2026.03",
       "title": "LNNet: The Float Wall & Physics Pantheon (HND V3)",
-      "desc_kr": "LNNet(Luciano Number Net) V3 논문을 ArXiv에 공개했습니다. 300억 개의 샘플을 활용하여 딥러닝의 'Float Wall' 한계를 극복하고, 인간의 개입 없이 물리 법칙의 보편 상수를 찾아내는 'Zero-Bias Discovery'를 목표로 합니다. Siamese Shared-Weight Transformer와 HND 전략을 통해 모델의 단순 암기를 원천 차단하고 진정한 'Grokking(깨달음)'을 유도하는 아키텍처를 제안합니다.",
-
+      "desc_kr": "2026년 3월 17일, LNNet(Luciano Number Net) V3 논문을 ArXiv에 공개했습니다. 300억 개의 샘플을 활용하여 딥러닝의 'Float Wall' 한계를 극복하고, 인간의 개입 없이 물리 법칙의 보편 상수를 찾아내는 'Zero-Bias Discovery'를 목표로 합니다. Siamese Shared-Weight Transformer와 HND 전략을 통해 모델의 단순 암기를 원천 차단하고 진정한 'Grokking(깨달음)'을 유도하는 아키텍처를 제안합니다.",
       "desc_en": "Released the LNNet (Luciano Number Net)(=HND) V3 preprint on ArXiv. Featuring a 30-billion sample scale, this research aims for 'Zero-Bias Discovery' of physical constants by overcoming the 'Float Wall'. It introduces a Siamese Shared-Weight Transformer and HND strategy to prevent rote memorization and induce true 'Grokking' within neural networks.",
       "tags": [
         "Paper",
