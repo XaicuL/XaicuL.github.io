@@ -40,8 +40,8 @@ DEFAULT_DATA = {
         "name_en": "HYUNJUN Jeon",
         "subtitle_kr": "AI & Neuroscience Explorer",
         "subtitle_en": "AI & Neuroscience Explorer",
-        "bio_kr": "AI와 인류의 뇌를 공부하고 있습니다.",
-        "bio_en": "Studying AI and the human brain."
+        "bio_kr": "고개를 들어 세계를 보겠습니다. 세계라는 무대에서 만나뵙겠습니다.<br><br>저는 인공지능과 인류의 뇌를 공부하고 있는 전현준입니다.",
+        "bio_en": "I will lift my head and look at the world. I will stand on the stage called the world.<br><br>I am Hyunjun Jeon, studying artificial intelligence and the human brain."
     },
     "journey": [],
     "work": [],
