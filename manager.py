@@ -29,6 +29,7 @@ JS_DIR = os.path.join(ASSETS_DIR, "js")
 POSTS_DIR = os.path.join(SCRIPT_DIR, "_posts")
 REVIEW_DIR = os.path.join(SCRIPT_DIR, "review")
 DATA_FILE = os.path.join(SCRIPT_DIR, "data.json")
+RE_DATA_DIR = os.path.join(ASSETS_DIR, "re_data")
 
 # ═══════════════════════════════════════════════════════════════
 # 데이터 관리 (JSON 파일로 모든 콘텐츠 저장)
@@ -492,26 +493,55 @@ function openReModal(idx) {{
 
     const overlay = document.getElementById('reModalOverlay');
     const contentArea = document.getElementById('reModalContent');
-    
-    const textContent = lang === 'KR' ? (item.desc_kr || item.desc) : (item.desc_en || item.desc || item.desc_kr);
     const titleText = lang === 'KR' ? item.title : (item.title_en || item.title);
     
+    // Show loading state
     contentArea.innerHTML = `
         <div class="re-modal-month">${{item.month}}</div>
         <h2 class="re-modal-title">${{titleText}}</h2>
-        <div class="re-modal-body">
-            ${{textContent}}
+        <div class="re-modal-body" style="text-align: center; padding: 40px 0;">
+            <div class="loading-spinner">Loading...</div>
         </div>
-        ${{(!isLocal && item.url && item.url !== '#') ? `<a href="${{item.url}}" target="_blank" class="re-link" style="margin-top: 40px; display: inline-block;">Read full review →</a>` : ''}}
     `;
-
+    
     overlay.classList.add('show');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
 
-    // Re-render MathJax inside the modal
-    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {{
-        MathJax.typesetPromise([contentArea]).catch(err => console.log('MathJax:', err));
-    }}
+    // Fetch the content
+    const contentPath = 'assets/re_data/' + item.content_file;
+    
+    fetch(contentPath)
+        .then(response => {{
+            if (!response.ok) throw new Error('File not found');
+            return response.json();
+        }})
+        .then(data => {{
+            const textContent = lang === 'KR' ? (data.desc_kr || data.desc) : (data.desc_en || data.desc || data.desc_kr);
+            
+            contentArea.innerHTML = `
+                <div class="re-modal-month">${{item.month}}</div>
+                <h2 class="re-modal-title">${{titleText}}</h2>
+                <div class="re-modal-body">
+                    ${{textContent}}
+                </div>
+                ${{(!isLocal && item.url && item.url !== '#') ? `<a href="${{item.url}}" target="_blank" class="re-link" style="margin-top: 40px; display: inline-block;">Read full review →</a>` : ''}}
+            `;
+
+            // Re-render MathJax inside the modal
+            if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {{
+                MathJax.typesetPromise([contentArea]).catch(err => console.log('MathJax:', err));
+            }}
+        }})
+        .catch(err => {{
+            console.error('Error loading review:', err);
+            contentArea.innerHTML = `
+                <div class="re-modal-month">${{item.month}}</div>
+                <h2 class="re-modal-title">${{titleText}}</h2>
+                <div class="re-modal-body" style="color: #ff6b6b; text-align: center;">
+                    ${{lang === 'KR' ? '내용을 불러올 수 없습니다.' : 'Failed to load content.'}}
+                </div>
+            `;
+        }});
 }}
 
 function closeReModal(event) {{
@@ -668,27 +698,43 @@ def sync_reviews(data):
     # Sort items by month (desc) and then type (Resolve first)
     sorted_keys = sorted(re_items_map.keys(), key=lambda x: (x[0], x[1], 0 if x[2]=='Resolve' else 1), reverse=True)
     
+    # Ensure RE_DATA_DIR exists
+    if not os.path.exists(RE_DATA_DIR):
+        os.makedirs(RE_DATA_DIR)
+        
     re_items = []
     for key in sorted_keys:
         item = re_items_map[key]
+        year_str, month_str, f_type = key
+        
         # Fill missing values if one language is missing
         if not item["title_en"]: item["title_en"] = item.get("title_kr", "Review")
         if not item["title_kr"]: item["title_kr"] = item.get("title_en", "회고")
         if not item["desc_en"]: item["desc_en"] = item.get("desc_kr", "Coming soon...")
         if not item["desc_kr"]: item["desc_kr"] = item.get("desc_en", "준비 중입니다...")
         
+        # Save actual content to a separate JSON file
+        content_filename = f"{year_str}_{month_str}_{f_type}.json"
+        content_json = {
+            "desc_kr": item["desc_kr"],
+            "desc_en": item["desc_en"]
+        }
+        
+        with open(os.path.join(RE_DATA_DIR, content_filename), 'w', encoding='utf-8') as f:
+            json.dump(content_json, f, ensure_ascii=False, indent=2)
+            
         re_items.append({
             "month": item["month"],
             "url": "#",
             "title": item["title_kr"],
             "title_en": item["title_en"],
-            "desc_kr": item["desc_kr"],
-            "desc_en": item["desc_en"]
+            "content_file": content_filename,
+            "type": f_type
         })
     
     if re_items:
         data["re"] = re_items
-        print(f"🔄 {len(re_items)}개의 회고 데이터를 KR/EN 폴더에서 동기화했습니다.")
+        print(f"🔄 {len(re_items)}개의 회고 데이터를 KR/EN 폴더에서 동기화했습니다. (데이터 분리 완료)")
 
 
 def rebuild_all(data):
