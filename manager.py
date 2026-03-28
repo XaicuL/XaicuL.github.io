@@ -40,36 +40,11 @@ DEFAULT_DATA = {
         "name_en": "HYUNJUN Jeon",
         "subtitle_kr": "AI & Neuroscience Explorer",
         "subtitle_en": "AI & Neuroscience Explorer",
-        "bio_kr": "고개를 들어 세계를 보겠습니다. 세계라는 무대에서 만나뵙겠습니다.<br><br>저는 인공지능과 인류의 뇌를 공부하고 있는 전현준입니다.",
-        "bio_en": "I will lift my head and look at the world. I will stand on the stage called the world.<br><br>I am Hyunjun Jeon, studying artificial intelligence and the human brain."
+        "bio_kr": "AI와 인류의 뇌를 공부하고 있습니다.",
+        "bio_en": "Studying AI and the human brain."
     },
-    "journey": [
-        {
-            "year": "2025 - Present",
-            "title_kr": "Independent Research",
-            "title_en": "Independent Research",
-            "desc_kr": "인공지능과 뇌과학의 교차점에서 새로운 가능성을 탐구하고 있습니다.",
-            "desc_en": "Exploring new possibilities at the intersection of AI and neuroscience.",
-            "tags": ["AI", "Neuroscience", "Research"]
-        },
-        {
-            "year": "2024",
-            "title_kr": "The Beginning",
-            "title_en": "The Beginning",
-            "desc_kr": "AI의 세계에 첫 발을 내디뎠습니다. 끝없는 호기심이 여정의 시작이었습니다.",
-            "desc_en": "Took my first steps into the world of AI. Endless curiosity marked the start of this journey.",
-            "tags": ["Learning", "Exploration"]
-        }
-    ],
-    "work": [
-        {
-            "year": "Coming Soon",
-            "title": "Research Papers",
-            "desc_kr": "현재 진행 중인 연구가 곧 공개될 예정입니다.",
-            "desc_en": "Research in progress. Coming soon.",
-            "tags": ["Paper"]
-        }
-    ],
+    "journey": [],
+    "work": [],
     "contact": {
         "email": "hyunjun050915@gmail.com",
         "github": "XaicuL",
@@ -80,29 +55,7 @@ DEFAULT_DATA = {
         "linkedin": "luciano05",
         "linkedin_url": "https://www.linkedin.com/in/luciano05/"
     },
-    "re": [
-        {
-            "month": "2026.01",
-            "url": "/re/2026-01/",
-            "title": "다짐과 회고",
-            "resolve": "새해의 시작, AI와 뇌과학의 교차점에서 더 깊이 탐구하겠습니다.",
-            "retrospect": "아직 진행 중..."
-        },
-        {
-            "month": "2025.12",
-            "url": "/re/2025-12/",
-            "title": "다짐과 회고",
-            "resolve": "한 해를 마무리하며 다음 단계를 준비합니다.",
-            "retrospect": "2025년은 AI 연구의 첫 걸음을 뗀 해였습니다."
-        },
-        {
-            "month": "2025.11",
-            "url": "/re/2025-11/",
-            "title": "다짐과 회고",
-            "resolve": "꾸준함의 힘을 믿습니다.",
-            "retrospect": "코드와 논문 사이에서 균형을 찾는 법을 배웠습니다."
-        }
-    ]
+    "re": []
 }
 
 
