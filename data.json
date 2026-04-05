@@ -111,6 +111,14 @@
   },
   "re": [
     {
+      "month": "2026.04",
+      "url": "#",
+      "title": "건네받은 삼월의 나날들, 사월이라는 이름표와 넥스트 러너로서 달려나가며",
+      "title_en": "Passing over the days of March, with a name tag called April, running as a Next Runner",
+      "content_file": "2026_04_Resolve.json",
+      "type": "Resolve"
+    },
+    {
       "month": "2026.03",
       "url": "#",
       "title": "궤도에 Merge 시킨 나날들을 사월의 동력으로 건네며",
