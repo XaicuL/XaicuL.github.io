@@ -582,7 +582,19 @@ def sync_reviews(data):
     if not os.path.exists(REVIEW_DIR):
         return
     
-    def simple_markdown_to_html(text):
+    def simple_markdown_to_html(text, year=None, month=None):
+        # 0. Wikilinks ![[image.png]] Support -> Convert to <img> tag
+        img_prefix = f"assets/img/re/{year}/{month}/" if year and month else ""
+        
+        def replace_img_wikilink(match):
+            filename = match.group(1).strip()
+            return f'<div class="re-img-container"><img src="{img_prefix}{filename}" class="re-img" alt="{filename}" onclick="window.open(this.src)"></div>'
+            
+        text = re.sub(r'!\[\[(.*?)\]\]', replace_img_wikilink, text)
+        
+        # 0.5 standard Markdown ![]() Support
+        text = re.sub(r'!\[(.*?)\]\((.*?)\)', fr'<div class="re-img-container"><img src="{img_prefix}\2" class="re-img" alt="\1" onclick="window.open(this.src)"></div>', text)
+
         # 1. LaTeX 보호 (특수 기호 변환 방지)
         math_blocks = []
         def save_math(match):
@@ -643,10 +655,10 @@ def sync_reviews(data):
                             
                             if lang == 'KR':
                                 re_items_map[key]["title_kr"] = title
-                                re_items_map[key]["desc_kr"] = simple_markdown_to_html(body)
+                                re_items_map[key]["desc_kr"] = simple_markdown_to_html(body, year, month)
                             else:
                                 re_items_map[key]["title_en"] = title
-                                re_items_map[key]["desc_en"] = simple_markdown_to_html(body)
+                                re_items_map[key]["desc_en"] = simple_markdown_to_html(body, year, month)
 
     # Sort items by month (desc) and then type (Resolve first)
     sorted_keys = sorted(re_items_map.keys(), key=lambda x: (x[0], x[1], 0 if x[2]=='Resolve' else 1), reverse=True)

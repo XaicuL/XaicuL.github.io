@@ -251,3 +251,27 @@
         font-size: 1.5rem;
     }
 }
+
+/* Image styles in reviews */
+.re-img-container {
+    margin: 32px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+}
+
+.re-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+}
+
+.re-img:hover {
+    transform: scale(1.01);
+}
