@@ -90,7 +90,7 @@ def generate_main_js(data):
     
     js_content = f'''/* ==================================
    main.js - Core functionality
-   ⚠️ 이 파일은 manager.py가 자동 생성합니다
+   ⚠️ 이 파일은 manager.py가 자동 생성
    ================================== */
 
 // Detect OS for keyboard shortcuts
@@ -724,7 +724,7 @@ def manage_profile(data):
     print(f"2. 이름 (EN): {data['profile']['name_en']}")
     print(f"3. 소개 (KR): {data['profile']['subtitle_kr']}")
     print(f"4. 소개 (EN): {data['profile']['subtitle_en']}")
-    print("5. 바이오 수정")
+    print("5. 정보(Bio) 수정")
     print("0. 뒤로")
     
     choice = input("\n선택: ").strip()
@@ -751,7 +751,7 @@ def manage_profile(data):
 def manage_journey(data):
     """Journey 관리"""
     print("\n" + "─" * 40)
-    print("🚀 Journey 관리")
+    print("Journey 관리")
     print("─" * 40)
     
     for i, item in enumerate(data['journey']):
@@ -804,7 +804,7 @@ def manage_journey(data):
 def manage_work(data):
     """Work 관리"""
     print("\n" + "─" * 40)
-    print("📚 Work & Publications 관리")
+    print("Work & Publications 관리")
     print("─" * 40)
     
     for i, item in enumerate(data['work']):
@@ -852,13 +852,13 @@ def manage_work(data):
 def manage_contact(data):
     """Contact & Links 관리"""
     print("\n" + "─" * 40)
-    print("✉️ Contact & Links 관리")
+    print("✉Contact & Links 관리")
     print("─" * 40)
     print(f"1. Email: {data['contact']['email']}")
     print(f"2. GitHub: {data['contact'].get('github_url', 'https://github.com/' + data['contact']['github'])}")
     print(f"3. Dev.to: {data['contact'].get('devto_url', 'https://dev.to/luc1a_no')}")
-    print(f"4. Google Scholar: {data['contact'].get('scholar_url', '(미설정)')}")
-    print(f"5. LinkedIn: {data['contact'].get('linkedin_url', '(미설정)')}")
+    print(f"4. Google Scholar: {data['contact'].get('scholar_url', 'https://scholar.google.com/citations?user=-7L12NQAAAAJ&hl=ko&authuser=1')}")
+    print(f"5. LinkedIn: {data['contact'].get('linkedin_url', 'https://www.linkedin.com/in/luciano05/')}")
     print("0. 뒤로")
     
     choice = input("\n선택: ").strip()
