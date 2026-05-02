@@ -709,7 +709,7 @@ def rebuild_all(data):
     generate_main_js(data)
     generate_re_section_js(data)
     generate_index_html(data)
-    print("\n🎉 모든 파일 재생성 완료!")
+    print("\n✅ 모든 파일 재생성 완료!")
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -740,8 +740,8 @@ def manage_profile(data):
     elif choice == "5":
         print("\n현재 바이오 (KR):")
         print(data['profile']['bio_kr'])
-        data['profile']['bio_kr'] = input("\n새 바이오 (KR, <br>로 줄바꿈): ").strip()
-        data['profile']['bio_en'] = input("새 바이오 (EN): ").strip()
+        data['profile']['bio_kr'] = input("\n새 소개 (KR, <br>로 줄바꿈): ").strip()
+        data['profile']['bio_en'] = input("새 소개 (EN): ").strip()
     
     if choice in ["1", "2", "3", "4", "5"]:
         save_data(data)
@@ -868,6 +868,7 @@ def manage_contact(data):
         save_data(data)
         generate_index_html(data)
         print("✅ 이메일 업데이트 완료")
+
     elif choice == "2":
         username = input("GitHub 사용자명: ").strip()
         data['contact']['github'] = username
@@ -875,6 +876,7 @@ def manage_contact(data):
         save_data(data)
         generate_index_html(data)
         print("✅ GitHub 업데이트 완료")
+
     elif choice == "3":
         username = input("Dev.to 사용자명: ").strip()
         data['contact']['devto'] = username
@@ -882,12 +884,14 @@ def manage_contact(data):
         save_data(data)
         rebuild_all(data) # To update fetch url in js
         print("✅ Dev.to 업데이트 완료")
+
     elif choice == "4":
         url = input("Google Scholar 프로필 URL: ").strip()
         data['contact']['scholar_url'] = url
         save_data(data)
         generate_index_html(data)
         print("✅ Google Scholar 업데이트 완료")
+
     elif choice == "5":
         username = input("LinkedIn 사용자명: ").strip()
         data['contact']['linkedin'] = username
@@ -899,12 +903,12 @@ def manage_contact(data):
 
 def parse_date_input():
     """날짜 입력 처리"""
-    year = input("📅 연도 (예: 2026 또는 26): ").strip().replace("년", "")
+    year = input("📅 연도 (예: YYYY 또는 YY): ").strip().replace("년", "")
     if len(year) == 2:
         year = f"20{year}"
     
-    month = input("📅 월 (예: 01 또는 1): ").strip().replace("월", "").zfill(2)
-    day = input("📅 일 (예: 01 또는 1): ").strip().replace("일", "").zfill(2)
+    month = input("📅 월 (예: MM 또는 M): ").strip().replace("월", "").zfill(2)
+    day = input("📅 일 (예: DD 또는 D): ").strip().replace("일", "").zfill(2)
     
     return f"{year}-{month}-{day}", f"{year}.{month}"
 
@@ -912,7 +916,7 @@ def parse_date_input():
 def manage_re(data):
     """Re 섹션 관리"""
     print("\n" + "─" * 40)
-    print("📝 Re 섹션 관리 (Markdown 동기화)")
+    print("Re 섹션 관리 (Markdown 동기화)")
     print(f"현재 위치: {REVIEW_DIR}")
     print("구조: review/{year}/{month}/Jan_Resolve.md 등")
     print("─" * 40)
@@ -960,11 +964,11 @@ month: "{month}"
 def git_operations():
     """Git 작업"""
     print("\n" + "─" * 40)
-    print("🚀 Git 작업")
+    print("Git operations")
     print("─" * 40)
-    print("1. 커밋 & 푸시")
-    print("2. 상태 확인")
-    print("0. 뒤로")
+    print("1. commit & push")
+    print("2. status check")
+    print("0. back")
     
     choice = input("\n선택: ").strip()
     
@@ -974,9 +978,9 @@ def git_operations():
             subprocess.run(["git", "add", "."], cwd=SCRIPT_DIR, check=True)
             subprocess.run(["git", "commit", "-m", message], cwd=SCRIPT_DIR, check=True)
             subprocess.run(["git", "push"], cwd=SCRIPT_DIR, check=True)
-            print("✅ Git 커밋 & 푸시 완료!")
+            print("✅ Git commit & push completed!")
         except subprocess.CalledProcessError as e:
-            print(f"⚠️ Git 오류: {e}")
+            print(f"Git error: {e}")
             
     elif choice == "2":
         subprocess.run(["git", "status"], cwd=SCRIPT_DIR)
@@ -987,7 +991,7 @@ def git_operations():
 # ═══════════════════════════════════════════════════════════════
 def main():
     print("\n" + "═" * 50)
-    print("     🎯 Luciano CV Manager v1.2")
+    print("      Luciano CV Manager")
     print("═" * 50)
     
     data = load_data()
