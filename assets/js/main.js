@@ -1,6 +1,6 @@
 /* ==================================
    main.js - Core functionality
-   ⚠️ 이 파일은 manager.py가 자동 생성합니다
+   ⚠️ 이 파일은 manager.py가 자동 생성
    ================================== */
 
 // Detect OS for keyboard shortcuts
