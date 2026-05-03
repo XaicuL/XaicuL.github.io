@@ -587,7 +587,9 @@ def sync_reviews(data):
         img_prefix = f"assets/img/re/{year}/{month}/" if year and month else ""
         
         def replace_img_wikilink(match):
-            filename = match.group(1).strip()
+            raw_filename = match.group(1).strip()
+            # Handle pipe syntax ![[image.png|300]]
+            filename = raw_filename.split('|')[0].strip()
             return f'<div class="re-img-container"><img src="{img_prefix}{filename}" class="re-img" alt="{filename}" onclick="window.open(this.src)"></div>'
             
         text = re.sub(r'!\[\[(.*?)\]\]', replace_img_wikilink, text)
