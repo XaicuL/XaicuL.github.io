@@ -111,6 +111,30 @@
   },
   "re": [
     {
+      "month": "2026.06",
+      "url": "#",
+      "title": "",
+      "title_en": "",
+      "content_file": "2026_06_Retrospect.json",
+      "type": "Retrospect"
+    },
+    {
+      "month": "2026.06",
+      "url": "#",
+      "title": "유월한 5월에게 안녕을 말하고, 찾아온 유월에게 안녕을 건네며.",
+      "title_en": "Saying goodbye to May that crossed over, and greeting June as it arrives.",
+      "content_file": "2026_06_Resolve.json",
+      "type": "Resolve"
+    },
+    {
+      "month": "2026.05",
+      "url": "#",
+      "title": "오월이라는 이름의 겨냥하던 과녁을 유월한 31발의 총성을 6월에 유월하며.",
+      "title_en": "Passing the 31 gunshots that targeted May's bullseye over to June.",
+      "content_file": "2026_05_Retrospect.json",
+      "type": "Retrospect"
+    },
+    {
       "month": "2026.05",
       "url": "#",
       "title": "관조하던 사월의 사계를, 오월이라는 이름으로 겨냥하며.",
