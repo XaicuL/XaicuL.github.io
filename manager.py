@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 """
-╔═══════════════════════════════════════════════════════════════╗
-║           CV Manager v1.0                          ║
-║     웹페이지의 모든 콘텐츠를 코드 수정 없이 관리        ║
-╚═══════════════════════════════════════════════════════════════╝
-
 관리 항목:
 1. 프로필 - 이름, 소개, 바이오
 2. Journey - 타임라인 항목
@@ -90,7 +85,7 @@ def generate_main_js(data):
     
     js_content = f'''/* ==================================
    main.js - Core functionality
-   ⚠️ 이 파일은 manager.py가 자동 생성
+   ️ 이 파일은 manager.py가 자동 생성
    ================================== */
 
 // Detect OS for keyboard shortcuts
@@ -701,7 +696,7 @@ def sync_reviews(data):
     
     if re_items:
         data["re"] = re_items
-        print(f"🔄 {len(re_items)}개의 회고 데이터를 KR/EN 폴더에서 동기화했습니다. (데이터 분리 완료)")
+        print(f"🔄 {len(re_items)}개의 회고 데이터를 KR/EN 폴더에서 동기화 완료 (데이터 분리 완료)")
 
 
 def rebuild_all(data):
@@ -720,7 +715,7 @@ def rebuild_all(data):
 def manage_profile(data):
     """프로필 관리"""
     print("\n" + "─" * 40)
-    print("👤 프로필 관리")
+    print("프로필 관리")
     print("─" * 40)
     print(f"1. 이름 (KR): {data['profile']['name_kr']}")
     print(f"2. 이름 (EN): {data['profile']['name_en']}")
@@ -905,12 +900,12 @@ def manage_contact(data):
 
 def parse_date_input():
     """날짜 입력 처리"""
-    year = input("📅 연도 (예: YYYY 또는 YY): ").strip().replace("년", "")
+    year = input("연도 (예: YYYY 또는 YY): ").strip().replace("년", "")
     if len(year) == 2:
         year = f"20{year}"
     
-    month = input("📅 월 (예: MM 또는 M): ").strip().replace("월", "").zfill(2)
-    day = input("📅 일 (예: DD 또는 D): ").strip().replace("일", "").zfill(2)
+    month = input("월 (예: MM 또는 M): ").strip().replace("월", "").zfill(2)
+    day = input("일 (예: DD 또는 D): ").strip().replace("일", "").zfill(2)
     
     return f"{year}-{month}-{day}", f"{year}.{month}"
 
@@ -1005,17 +1000,17 @@ def main():
     
     while True:
         print("\n┌─────────────────────────────────────────┐")
-        print("│  1. 👤 프로필    2. 🚀 Journey          │")
-        print("│  3. 📚 Work      4. ✉️  Contact          │")
-        print("│  5. 📝 Re        6. 🔄 전체 재생성      │")
-        print("│  7. 🚀 Git                              │")
+        print("│  1. 프로필    2. Journey          │")
+        print("│  3. Work      4. Contact          │")
+        print("│  5. Re        6. 전체 재생성      │")
+        print("│  7. Git                              │")
         print("│  0. 종료                                │")
         print("└─────────────────────────────────────────┘")
         
         choice = input("\n선택: ").strip()
         
         if choice == "0":
-            print("\n👋 안녕히 가세요!\n")
+            print("\nGoodbye!\n")
             break
         elif choice == "1":
             manage_profile(data)
