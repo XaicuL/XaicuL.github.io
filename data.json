@@ -14,7 +14,10 @@
       "title_en": "MIT 6.006 (OCW)",
       "desc_kr": "Introduction to Algorithms",
       "desc_en": "Introduction to Algorithms",
-      "tags": [ "Algorithms","Python"]
+      "tags": [
+        "Algorithms",
+        "Python"
+      ]
     },
     {
       "year": "2026.03 - 2026.07",
