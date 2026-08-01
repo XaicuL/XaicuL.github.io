@@ -95,7 +95,7 @@ const isWin = navigator.platform.toUpperCase().indexOf('WIN') >= 0;
 if (isMac) document.body.classList.add('is-mac');
 else if (isWin) document.body.classList.add('is-win');
 
-let currentLang = 'KR';
+let currentLang = 'EN';
 const sections = ['hero', 'journey', 'work', 'contact', 're', 'updates'];
 
 // Data from manager.py
@@ -204,7 +204,7 @@ async function fetchUpdates() {{
 
 function toggleLanguage() {{
     currentLang = currentLang === 'KR' ? 'EN' : 'KR';
-    document.getElementById('langBtn').textContent = currentLang === 'KR' ? 'EN' : 'KR';
+    document.getElementById('langBtn').textContent = currentLang === 'KR' ? 'EN' : 'KOR';
     updateContent();
     if (typeof generateReCards === 'function') {{
         generateReCards();
@@ -381,7 +381,7 @@ def generate_re_section_js(data):
     
     js_content = f'''/* ==================================
    re-section.js - Monthly Retrospective Section
-   ⚠️ 이 파일은 manager.py가 자동 생성합니다
+   ⚠️ 이 파일은 manager.py가 자동 생성
    ================================== */
 
 const isLocal = window.location.protocol === 'file:';
@@ -393,7 +393,7 @@ let activeFilter = 'all';
 
 function generateReCards() {{
     const grid = document.getElementById('reGrid');
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'EN';
     
     const filteredData = activeFilter === 'all' 
         ? reData 
@@ -434,7 +434,7 @@ function filterReCards() {{
 }}
 
 function openReModal(idx) {{
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'EN';
     const item = activeFilter === 'all' ? reData[idx] : reData.filter(d => d.month.startsWith(activeFilter))[idx];
     
     if (!item) return;
@@ -926,7 +926,6 @@ def manage_re(data):
         rebuild_all(data)
     elif choice == "0":
         return
-
 
 def create_jekyll_post(date_str, month, item):
     """Jekyll 포스트 생성"""

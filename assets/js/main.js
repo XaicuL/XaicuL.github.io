@@ -10,7 +10,7 @@ const isWin = navigator.platform.toUpperCase().indexOf('WIN') >= 0;
 if (isMac) document.body.classList.add('is-mac');
 else if (isWin) document.body.classList.add('is-win');
 
-let currentLang = 'KR';
+let currentLang = 'EN';
 const sections = ['hero', 'journey', 'work', 'contact', 're', 'updates'];
 
 // Data from manager.py
@@ -119,7 +119,7 @@ async function fetchUpdates() {
 
 function toggleLanguage() {
     currentLang = currentLang === 'KR' ? 'EN' : 'KR';
-    document.getElementById('langBtn').textContent = currentLang === 'KR' ? 'EN' : 'KR';
+    document.getElementById('langBtn').textContent = currentLang === 'KR' ? 'EN' : 'KOR';
     updateContent();
     if (typeof generateReCards === 'function') {
         generateReCards();

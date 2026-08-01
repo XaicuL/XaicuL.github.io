@@ -12,7 +12,7 @@ let activeFilter = 'all';
 
 function generateReCards() {
     const grid = document.getElementById('reGrid');
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'EN';
     
     const filteredData = activeFilter === 'all' 
         ? reData 
@@ -53,7 +53,7 @@ function filterReCards() {
 }
 
 function openReModal(idx) {
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'KR';
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'EN';
     const item = activeFilter === 'all' ? reData[idx] : reData.filter(d => d.month.startsWith(activeFilter))[idx];
     
     if (!item) return;
