@@ -1,6 +1,6 @@
 /* ==================================
    re-section.js - Monthly Retrospective Section
-   ⚠️ 이 파일은 manager.py가 자동 생성합니다
+   ⚠️ 이 파일은 manager.py가 자동 생성
    ================================== */
 
 const isLocal = window.location.protocol === 'file:';

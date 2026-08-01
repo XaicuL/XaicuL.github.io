@@ -32,7 +32,7 @@ const content = {
     EN: {
         heroName: 'HYUNJUN Jeon',
         heroSubtitle: 'AI & Neuroscience Explorer',
-        bioText: 'I will lift my head and look at the world. I will stand on the stage called the world.<br><br>I am Hyunjun Jeon, studying artificial intelligence and the human brain.',
+        bioText: 'I will lift my head and look at the world. <br> I will stand on the stage called the world.<br><br>I'm HYUNJUN Jeon, studying artificial intelligence and the human brain.',
         journeyLabel: 'My Journey',
         workLabel: 'Work & Publications',
         contactLabel: 'Get in Touch',
