@@ -124,6 +124,9 @@ function toggleLanguage() {
     if (typeof generateReCards === 'function') {
         generateReCards();
     }
+    if (typeof refreshOpenReModal === 'function') {
+        refreshOpenReModal();
+    }
 }
 
 function scrollToSection(sectionId) {

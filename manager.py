@@ -214,6 +214,9 @@ function toggleLanguage() {{
     if (typeof generateReCards === 'function') {{
         generateReCards();
     }}
+    if (typeof refreshOpenReModal === 'function') {{
+        refreshOpenReModal();
+    }}
 }}
 
 function scrollToSection(sectionId) {{
@@ -395,6 +398,7 @@ const isLocal = window.location.protocol === 'file:';
 const reData = {re_json};
 
 let activeFilter = 'all';
+let activeReKey = null;
 
 function generateReCards() {{
     const grid = document.getElementById('reGrid');
@@ -443,6 +447,7 @@ function openReModal(idx) {{
     const item = activeFilter === 'all' ? reData[idx] : reData.filter(d => d.month.startsWith(activeFilter))[idx];
     
     if (!item) return;
+    activeReKey = item.month + '|' + item.type;
 
     const overlay = document.getElementById('reModalOverlay');
     const contentArea = document.getElementById('reModalContent');
@@ -460,10 +465,10 @@ function openReModal(idx) {{
     overlay.classList.add('show');
     document.body.style.overflow = 'hidden';
 
-    // Fetch the content
+    // Fetch the content (cache: 'no-store' so language switches don't keep stale KR/EN JSON)
     const contentPath = 'assets/re_data/' + item.content_file;
     
-    fetch(contentPath)
+    fetch(contentPath, {{ cache: 'no-store' }})
         .then(response => {{
             if (!response.ok) throw new Error('File not found');
             return response.json();
@@ -501,6 +506,19 @@ function closeReModal(event) {{
     const overlay = document.getElementById('reModalOverlay');
     overlay.classList.remove('show');
     document.body.style.overflow = 'auto'; // Restore background scrolling
+    activeReKey = null;
+}}
+
+function refreshOpenReModal() {{
+    const overlay = document.getElementById('reModalOverlay');
+    if (!overlay || !overlay.classList.contains('show') || !activeReKey) return;
+
+    const [month, type] = activeReKey.split('|');
+    const filteredData = activeFilter === 'all'
+        ? reData
+        : reData.filter(item => item.month.startsWith(activeFilter));
+    const idx = filteredData.findIndex(item => item.month === month && item.type === type);
+    if (idx >= 0) openReModal(idx);
 }}
 
 // Add Escape key listener to close modal
