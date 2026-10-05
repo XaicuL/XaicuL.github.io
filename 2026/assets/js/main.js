@@ -22,7 +22,7 @@ const content = {
     KR: {
         heroName: "전현준",
         heroSubtitle: "AI & Neuroscience Explorer",
-        bioText: "고개를 들어 세계를 보겠습니다. 세계라는 무대에서 만나뵙겠습니다.<br><br>저는 인공지능과 인류의 뇌를 공부하고 있는 전현준입니다.",
+        bioText: "고개를 들어 세계를 보겠습니다. 세계라는 무대에서 만나뵙겠습니다.<br><br>저는 인공지능과 신경과학을 공부하고 있는 전현준입니다.",
         journeyLabel: 'My Journey',
         workLabel: 'Work & Publications',
         contactLabel: 'Get in Touch',
@@ -32,7 +32,7 @@ const content = {
     EN: {
         heroName: "HYUNJUN Jeon",
         heroSubtitle: "AI & Neuroscience Explorer",
-        bioText: "I will lift my head and look at the world. <br> I will stand on the stage called the world.<br><br>I'm HYUNJUN Jeon, studying artificial intelligence and the human brain.",
+        bioText: "I will lift my head and look at the world. <br> I will stand on the stage called the world.<br><br>I'm HYUNJUN Jeon, studying artificial intelligence and neuroscience.",
         journeyLabel: 'My Journey',
         workLabel: 'Work & Publications',
         contactLabel: 'Get in Touch',
