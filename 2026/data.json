@@ -122,6 +122,22 @@
   },
   "re": [
     {
+      "month": "2026.10",
+      "url": "#",
+      "title": "흔들던 손바닥 속 간직하던 나의 작은 바램들이, 바람을 타고 비상하며.",
+      "title_en": "The small wishes I kept in my waving palms, rising on the wind.",
+      "content_file": "2026_10_Resolve.json",
+      "type": "Resolve"
+    },
+    {
+      "month": "2026.09",
+      "url": "#",
+      "title": "투사된 달빛 속 절애하는 눈빛에게 손을 흔들고, 여명과 함께 찾아오는 애달픈 노을에게 손을 흔들며.",
+      "title_en": "Waving to sorrowful eyes in the moonlight, and to bittersweet dusk with the dawn.",
+      "content_file": "2026_09_Retrospect.json",
+      "type": "Retrospect"
+    },
+    {
       "month": "2026.09",
       "url": "#",
       "title": "다시 찾아오는 새벽녘 속 반짝이는 눈빛을 떠나가는 달빛에게 투사시키며.",
