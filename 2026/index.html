@@ -108,8 +108,13 @@
     </nav>
 
     <div class="header-controls">
-        <div class="year-switcher" aria-label="Year">
-            <a href="/2026/" class="control-btn year-btn active">2026</a>
+        <div class="year-switcher" id="yearSwitcher">
+            <button type="button" class="control-btn year-btn active" id="yearBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select year">
+                2026
+            </button>
+            <div class="year-dropdown" id="yearDropdown" role="listbox" hidden>
+                <a href="/2026/" class="year-option is-current" role="option" aria-selected="true">2026</a>
+            </div>
         </div>
         <button class="control-btn" id="langBtn" onclick="toggleLanguage()">KOR</button>
         <button class="control-btn" id="cmdBtn" onclick="openCommandPalette()">
@@ -312,6 +317,7 @@
         </div>
     </div>
 
+    <script src="assets/js/year-switcher.js"></script>
     <script src="assets/js/command-palette.js"></script>
     <script src="assets/js/re-section.js"></script>
     <script src="assets/js/main.js"></script>
