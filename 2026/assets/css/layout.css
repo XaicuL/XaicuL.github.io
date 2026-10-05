@@ -151,6 +151,20 @@
     color: var(--text-primary);
 }
 
+a.control-btn {
+    text-decoration: none;
+}
+
+.year-switcher {
+    display: flex;
+    gap: 6px;
+}
+
+.year-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
 .control-btn kbd {
     background: var(--bg-secondary);
     padding: 2px 6px;
