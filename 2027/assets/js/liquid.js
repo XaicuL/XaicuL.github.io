@@ -2,6 +2,53 @@
 
 (function () {
     const root = document.documentElement;
+    const map = document.getElementById('liquid-map');
+
+    function buildMap(w, h) {
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        const image = ctx.createImageData(w, h);
+        const data = image.data;
+        const lenses = [
+            { cx: w * 0.5, cy: h * 0.48, r: Math.min(w, h) * 0.46 },
+            { cx: w * 0.24, cy: h * 0.7, r: Math.min(w, h) * 0.22 }
+        ];
+
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                let dx = 0;
+                let dy = 0;
+                lenses.forEach((lens) => {
+                    const ox = x - lens.cx;
+                    const oy = y - lens.cy;
+                    const dist = Math.hypot(ox, oy);
+                    const inner = lens.r * 0.58;
+                    if (dist >= lens.r || dist <= inner) return;
+                    const t = (dist - inner) / (lens.r - inner);
+                    const mag = Math.pow(t, 1.35);
+                    dx += (ox / dist) * mag;
+                    dy += (oy / dist) * mag;
+                });
+                dx = Math.max(-1, Math.min(1, dx));
+                dy = Math.max(-1, Math.min(1, dy));
+                const i = (y * w + x) * 4;
+                data[i] = 128 + dx * 127;
+                data[i + 1] = 128 + dy * 127;
+                data[i + 2] = 128;
+                data[i + 3] = 255;
+            }
+        }
+        ctx.putImageData(image, 0, 0);
+        return canvas.toDataURL();
+    }
+
+    if (map) {
+        const href = buildMap(480, 300);
+        map.setAttribute('href', href);
+        map.setAttributeNS('http://www.w3.org/1999/xlink', 'href', href);
+    }
 
     window.addEventListener('scroll', () => {
         const y = window.scrollY || 0;

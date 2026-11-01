@@ -34,11 +34,20 @@
 </head>
 
 <body class="year-2027">
+    <svg class="liquid-svg" aria-hidden="true" focusable="false">
+        <filter id="liquid-glass" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+            <feImage id="liquid-map" result="map" preserveAspectRatio="none" x="0" y="0" width="100%" height="100%" />
+            <feDisplacementMap in="SourceGraphic" in2="map" scale="48" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
     <div class="liquid-field" aria-hidden="true">
-        <div class="liquid-blob liquid-blob-a"></div>
-        <div class="liquid-blob liquid-blob-b"></div>
-        <div class="liquid-sheen"></div>
+        <div class="liquid-source">
+            <div class="liquid-blob liquid-blob-a"></div>
+            <div class="liquid-blob liquid-blob-b"></div>
+            <div class="liquid-sheen"></div>
+        </div>
         <div class="liquid-cursor" aria-hidden="true"></div>
+        <div class="liquid-rim"></div>
     </div>
     <div class="police-tape" aria-hidden="true">
         <div class="police-tape-track">
