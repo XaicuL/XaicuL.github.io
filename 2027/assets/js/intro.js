@@ -11,9 +11,11 @@
         { id: 're', label: 'RE' }
     ];
 
-    const letters = word.split('').map((ch) => {
+    const colors = ['#7c8cff', '#f2c200', '#ff7a90', '#7dffa1', '#c9a0ff', '#ffb067', '#7ee0ff'];
+    const letters = word.split('').map((ch, i) => {
         const el = document.createElement('span');
         el.textContent = ch;
+        el.style.setProperty('--ink', colors[i]);
         row.appendChild(el);
         return { ch, el, x: 0, y: 0, bx: 0, by: 0, bz: 0, bs: 1 };
     });
@@ -80,6 +82,8 @@
     function gather() {
         letters.forEach((letter, i) => {
             later(() => {
+                letter.el.classList.remove('is-ink', 'is-set');
+                letter.el.style.backgroundSize = '100% 0%, 100% 100%';
                 letter.el.style.transition = 'none';
                 place(letter.el, letter.bx, letter.by, letter.bz, letter.bs);
                 letter.el.style.opacity = '0';
@@ -87,10 +91,21 @@
                 letter.el.style.transition = 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease';
                 place(letter.el, letter.x, letter.y, 0, 1);
                 letter.el.style.opacity = '1';
-                later(() => letter.el.classList.add('is-set'), 420);
             }, i * 140);
         });
-        later(openSite, (letters.length - 1) * 140 + 980);
+        later(ignite, (letters.length - 1) * 140 + 820);
+    }
+
+    function ignite() {
+        letters.forEach((letter, i) => {
+            later(() => {
+                letter.el.style.transition = 'background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1)';
+                letter.el.style.setProperty('--ink', '#fff');
+                letter.el.style.backgroundSize = '100% 100%, 100% 100%';
+                letter.el.classList.add('is-set');
+            }, i * 120);
+        });
+        later(openSite, letters.length * 120 + 620);
     }
 
     function bang() {
@@ -121,19 +136,33 @@
         row.style.height = height + 'px';
         row.classList.add('is-flying');
         const rowRect = row.getBoundingClientRect();
-        const letterW = letters[0].w || 40;
-        const gap = letterW * 0.46;
-        const total = gap * (letters.length - 1);
+        const letterH = letters[0].h || 80;
+        const pile = (i, spread) => {
+            const step = spread ? letterH * 0.42 : 0;
+            const total = step * (letters.length - 1);
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2 + total / 2 - i * step;
+            return {
+                x: centerX - rowRect.left - letters[i].w / 2,
+                y: centerY - rowRect.top - letters[i].h / 2
+            };
+        };
         letters.forEach((letter, i) => {
-            const centerX = window.innerWidth / 2 - total / 2 + i * gap;
-            const centerY = window.innerHeight / 2;
-            const tx = centerX - rowRect.left - letter.w / 2;
-            const ty = centerY - rowRect.top - letter.h / 2;
+            const at = pile(i, false);
             letter.el.style.transition = 'none';
             letter.el.style.opacity = '1';
-            place(letter.el, tx, ty, 0, 1);
+            letter.el.style.zIndex = String(i);
+            place(letter.el, at.x, at.y, 0, 1);
         });
-        later(bang, 1100);
+        later(() => {
+            letters.forEach((letter, i) => {
+                const at = pile(i, true);
+                letter.el.style.transition = 'transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), background-size 0.7s cubic-bezier(0.2, 0.7, 0.2, 1)';
+                place(letter.el, at.x, at.y, 0, 1);
+                later(() => letter.el.classList.add('is-ink'), i * 90);
+            });
+        }, 560);
+        later(bang, 1680);
     }
 
     window.addEventListener('scroll', placeSection, { passive: true });

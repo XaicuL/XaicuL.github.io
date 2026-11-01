@@ -210,8 +210,19 @@
     display: block;
     min-width: 0.72em;
     text-align: center;
-    color: #fff;
-    opacity: 1;
+    color: transparent;
+    --ink: #8a8a8a;
+    background-image: linear-gradient(var(--ink), var(--ink)), linear-gradient(#8a8a8a, #8a8a8a);
+    background-repeat: no-repeat;
+    background-position: center bottom, center bottom;
+    background-size: 100% 0%, 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.luciano-intro-word span.is-ink,
+.luciano-intro-word span.is-set {
+    background-size: 100% 100%, 100% 100%;
 }
 
 .luciano-intro-word.is-flying span {
@@ -221,8 +232,7 @@
 }
 
 .luciano-intro-word span.is-set {
-    color: #fff;
-    text-shadow: 0 0 22px rgba(255, 255, 255, 0.55);
+    text-shadow: 0 0 22px rgba(255, 255, 255, 0.6);
 }
 
 .section-mark {
