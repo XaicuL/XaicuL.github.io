@@ -5,13 +5,15 @@
 
     window.addEventListener('scroll', () => {
         const y = window.scrollY || 0;
-        const shift = 30 - (y % 280) / 8;
-        root.style.setProperty('--sheen', shift + '%');
+        root.style.setProperty('--field-y', (y * 0.18) + 'px');
+        root.style.setProperty('--ly', (-18 + (y % 900) / 18) + 'vh');
     }, { passive: true });
 
     window.addEventListener('pointermove', (e) => {
-        const x = (e.clientX / window.innerWidth) * 40 - 20;
-        root.style.setProperty('--sheen', (12 + x) + '%');
+        const x = (e.clientX / window.innerWidth - 0.5) * 12;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        root.style.setProperty('--lx', x + 'vw');
+        root.style.setProperty('--ly', `calc(${y}vh + ${(window.scrollY % 900) / 18 - 18}vh)`);
     }, { passive: true });
 
     const sections = () => [...document.querySelectorAll('main > section')];
