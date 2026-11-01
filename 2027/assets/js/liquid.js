@@ -125,6 +125,10 @@
     }
 
     window.addEventListener('wheel', (e) => {
+        if (document.body.classList.contains('intro-on')) {
+            e.preventDefault();
+            return;
+        }
         if (e.ctrlKey || e.metaKey) return;
         if (document.querySelector('.re-modal-overlay.show, .cmd-palette-overlay.show')) {
             charge = 0;

@@ -212,8 +212,77 @@
     will-change: transform;
 }
 
+.year-2027.intro-on {
+    overflow: hidden;
+}
+
+.luciano-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #09090b;
+    transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.luciano-intro.is-leave {
+    transform: translateY(-105%);
+}
+
+.luciano-intro-word {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.06em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(2.6rem, 9vw, 7.2rem);
+    font-weight: 500;
+    line-height: 1;
+}
+
+.luciano-intro-word span {
+    display: block;
+    min-width: 0.72em;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.38);
+    transform: translateY(calc(var(--arc, 0px)));
+}
+
+.luciano-intro-word span.is-set {
+    color: #fff;
+}
+
 .year-2027 .hero {
     scroll-margin-top: var(--tape-h);
+    overflow: hidden;
+}
+
+.year-2027 .philosophy-bg {
+    opacity: 0;
+}
+
+.year-2027 .cv-mark {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vw 0 calc(var(--nav-width) + 1vw);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(7.5rem, 28vw, 24rem);
+    letter-spacing: -0.08em;
+    line-height: 0.78;
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+    user-select: none;
+    opacity: var(--cv-opacity, 1);
+}
+
+.year-2027 .hero-content {
+    z-index: 1;
 }
 
 .year-2027 section {
