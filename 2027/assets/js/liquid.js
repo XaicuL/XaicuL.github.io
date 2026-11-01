@@ -50,8 +50,28 @@
         map.setAttributeNS('http://www.w3.org/1999/xlink', 'href', href);
     }
 
+    let lastY = window.scrollY || 0;
+    let flow = 0;
+    let scrollIdle;
+
+    function markScroll(delta) {
+        if (Math.abs(delta) < 0.5) return;
+        const down = delta > 0;
+        document.body.classList.toggle('scroll-down', down);
+        document.body.classList.toggle('scroll-up', !down);
+        flow = Math.max(-72, Math.min(72, down ? Math.abs(delta) : -Math.abs(delta)));
+        root.style.setProperty('--flow', Math.abs(flow) + 'px');
+        clearTimeout(scrollIdle);
+        scrollIdle = setTimeout(() => {
+            document.body.classList.remove('scroll-down', 'scroll-up');
+            root.style.setProperty('--flow', '0px');
+        }, 220);
+    }
+
     window.addEventListener('scroll', () => {
         const y = window.scrollY || 0;
+        markScroll(y - lastY);
+        lastY = y;
         root.style.setProperty('--field-y', (y * 0.18) + 'px');
         root.style.setProperty('--ly', (-18 + (y % 900) / 18) + 'vh');
     }, { passive: true });
@@ -113,6 +133,7 @@
 
         const dir = Math.sign(e.deltaY);
         if (!dir) return;
+        markScroll(dir);
 
         const target = dir > 0 ? nextSeam() : prevSeam();
         if (!target) {
