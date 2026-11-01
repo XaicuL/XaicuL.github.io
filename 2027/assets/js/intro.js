@@ -1,9 +1,7 @@
-/* 2027 — letters surge forward, gather from random points, then ignite.
-   Section words appear on the way in and fade once that section settles. */
+/* 2027 — LUCIANO condenses, bursts through the screen, then gathers back. */
 
 (function () {
     const word = 'LUCIANO';
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const intro = document.getElementById('lucianoIntro');
     const row = document.getElementById('lucianoIntroWord');
     const mark = document.getElementById('sectionMark');
@@ -13,17 +11,15 @@
         { id: 're', label: 'RE' }
     ];
 
-    const letters = word.split('').map((ch, i) => {
+    const letters = word.split('').map((ch) => {
         const el = document.createElement('span');
-        el.textContent = alphabet[(i * 5) % 26];
+        el.textContent = ch;
         row.appendChild(el);
-        return { ch, el, locked: false, x: 0, y: 0 };
+        return { ch, el, x: 0, y: 0, bx: 0, by: 0, bz: 0, bs: 1 };
     });
 
     let stopped = false;
-    let frame = 0;
     const timers = [];
-    let glyphTimer = 0;
 
     function later(fn, ms) {
         const id = window.setTimeout(() => {
@@ -39,7 +35,6 @@
     function finish() {
         stopped = true;
         timers.forEach((id) => window.clearTimeout(id));
-        window.clearInterval(glyphTimer);
         document.body.classList.remove('intro-on');
         if (intro) intro.remove();
         placeSection();
@@ -49,7 +44,6 @@
         if (!intro || intro.classList.contains('is-leave')) return;
         stopped = true;
         timers.forEach((id) => window.clearTimeout(id));
-        window.clearInterval(glyphTimer);
         intro.classList.add('is-leave');
         window.setTimeout(finish, 900);
     }
@@ -83,43 +77,38 @@
         mark.style.opacity = String(best);
     }
 
-    function ignite() {
-        window.clearInterval(glyphTimer);
-        letters.forEach((letter, i) => {
-            later(() => {
-                letter.locked = true;
-                letter.el.textContent = letter.ch;
-                letter.el.classList.add('is-set');
-            }, i * 130);
-        });
-        later(openSite, letters.length * 130 + 480);
-    }
-
     function gather() {
-        const stage = row.getBoundingClientRect();
-        letters.forEach((letter) => {
-            letter.el.style.transition = 'none';
-            let x = Math.random() * window.innerWidth - stage.left;
-            let y = Math.random() * window.innerHeight - stage.top;
-            const dx = x - letter.x;
-            const dy = y - letter.y;
-            if (Math.hypot(dx, dy) < 180) {
-                x += dx >= 0 ? 220 : -220;
-                y += dy >= 0 ? 160 : -160;
-            }
-            place(letter.el, x, y, 0, 0.5);
-        });
-        row.getBoundingClientRect();
         letters.forEach((letter, i) => {
             later(() => {
-                letter.el.style.transition = 'transform 0.72s cubic-bezier(0.16, 1, 0.3, 1)';
+                letter.el.style.transition = 'none';
+                place(letter.el, letter.bx, letter.by, letter.bz, letter.bs);
+                letter.el.style.opacity = '0';
+                row.getBoundingClientRect();
+                letter.el.style.transition = 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease';
                 place(letter.el, letter.x, letter.y, 0, 1);
-            }, 40 + i * 120);
+                letter.el.style.opacity = '1';
+                later(() => letter.el.classList.add('is-set'), 420);
+            }, i * 140);
         });
-        later(ignite, 40 + (letters.length - 1) * 120 + 740);
+        later(openSite, (letters.length - 1) * 140 + 980);
     }
 
-    function surge() {
+    function bang() {
+        letters.forEach((letter, i) => {
+            const angle = (i / letters.length) * Math.PI * 2 + (Math.random() - 0.5) * 0.7;
+            const dist = Math.max(window.innerWidth, window.innerHeight) * (0.42 + Math.random() * 0.28);
+            letter.bx = letter.x + Math.cos(angle) * dist;
+            letter.by = letter.y + Math.sin(angle) * dist * 0.72;
+            letter.bz = 280 + Math.random() * 220;
+            letter.bs = 1.7 + Math.random() * 0.8;
+            letter.el.style.transition = 'transform 0.42s cubic-bezier(0.15, 0.7, 0.2, 1), opacity 0.42s ease';
+            place(letter.el, letter.bx, letter.by, letter.bz, letter.bs);
+            letter.el.style.opacity = '0';
+        });
+        later(gather, 520);
+    }
+
+    function condense() {
         const width = row.offsetWidth;
         const height = row.offsetHeight;
         letters.forEach((letter) => {
@@ -129,18 +118,19 @@
         row.style.width = width + 'px';
         row.style.height = height + 'px';
         row.classList.add('is-flying');
-        const cx = width / 2 - 20;
+        const cx = width / 2;
         const cy = height / 2;
         letters.forEach((letter) => {
             letter.el.style.transition = 'none';
-            place(letter.el, cx, cy, -640, 0.18);
+            letter.el.style.opacity = '1';
+            place(letter.el, cx, cy, 0, 0.22);
         });
         row.getBoundingClientRect();
         letters.forEach((letter) => {
-            letter.el.style.transition = 'transform 0.78s cubic-bezier(0.16, 1, 0.3, 1)';
-            place(letter.el, cx, cy, 180, 1.28);
+            letter.el.style.transition = 'transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            place(letter.el, cx, cy, 36, 0.34);
         });
-        later(gather, 980);
+        later(bang, 620);
     }
 
     window.addEventListener('scroll', placeSection, { passive: true });
@@ -156,13 +146,5 @@
         if (e.key === 'Escape') openSite();
     });
 
-    glyphTimer = window.setInterval(() => {
-        frame += 1;
-        letters.forEach((letter, i) => {
-            if (letter.locked) return;
-            letter.el.textContent = alphabet[(frame * 2 + i * 4) % 26];
-        });
-    }, 48);
-
-    surge();
+    condense();
 })();
