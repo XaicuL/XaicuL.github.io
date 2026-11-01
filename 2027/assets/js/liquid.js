@@ -14,7 +14,23 @@
         const y = (e.clientY / window.innerHeight - 0.5) * 10;
         root.style.setProperty('--lx', x + 'vw');
         root.style.setProperty('--ly', `calc(${y}vh + ${(window.scrollY % 900) / 18 - 18}vh)`);
+        cursorTargetX = e.clientX;
+        cursorTargetY = e.clientY;
     }, { passive: true });
+
+    let cursorTargetX = window.innerWidth * 0.62;
+    let cursorTargetY = window.innerHeight * 0.42;
+    let cursorX = cursorTargetX;
+    let cursorY = cursorTargetY;
+
+    function followCursor() {
+        cursorX += (cursorTargetX - cursorX) * 0.07;
+        cursorY += (cursorTargetY - cursorY) * 0.07;
+        root.style.setProperty('--cx', cursorX + 'px');
+        root.style.setProperty('--cy', cursorY + 'px');
+        requestAnimationFrame(followCursor);
+    }
+    followCursor();
 
     const sections = () => [...document.querySelectorAll('main > section')];
     let charge = 0;

@@ -119,6 +119,26 @@
     transform: translate3d(0, var(--field-y, 0px), 0);
 }
 
+.liquid-cursor {
+    position: absolute;
+    width: 460px;
+    height: 460px;
+    margin-left: -230px;
+    margin-top: -230px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(176, 190, 255, 0.1) 26%,
+        transparent 68%
+    );
+    filter: blur(18px);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+    transform: translate3d(var(--cx, 50vw), var(--cy, 40vh), 0);
+    will-change: transform;
+}
+
 .year-2027 .hero {
     scroll-margin-top: var(--tape-h);
 }
