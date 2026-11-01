@@ -1,0 +1,130 @@
+/* 2027 mock — liquid glass + police tape */
+
+.year-2027 {
+    --tape-h: 34px;
+    --accent: #7c8cff;
+    --accent-light: #a8b4ff;
+    --accent-dim: rgba(124, 140, 255, 0.16);
+    --glass: rgba(14, 16, 24, 0.46);
+    --glass-edge: rgba(255, 255, 255, 0.22);
+}
+
+.police-tape {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 400;
+    height: var(--tape-h);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background:
+        repeating-linear-gradient(
+            -45deg,
+            #111 0 10px,
+            #f2c200 10px 20px
+        );
+    border-bottom: 2px solid #111;
+}
+
+.police-tape-track {
+    display: flex;
+    gap: 2.4rem;
+    min-width: max-content;
+    animation: tape-slide 22s linear infinite;
+    color: #000;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    background: #f2c200;
+    padding: 4px 0;
+    line-height: 1;
+}
+
+@keyframes tape-slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.year-2027 .progress-bar {
+    top: var(--tape-h);
+}
+
+.year-2027 .header-controls {
+    top: calc(16px + var(--tape-h));
+}
+
+.year-2027 .side-nav {
+    top: var(--tape-h);
+    background: rgba(10, 12, 18, 0.38);
+    backdrop-filter: blur(24px) saturate(1.7);
+    -webkit-backdrop-filter: blur(24px) saturate(1.7);
+    border-right-color: var(--glass-edge);
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+.year-2027 .control-btn,
+.year-2027 .year-dropdown,
+.year-2027 .timeline-item,
+.year-2027 .contact-card,
+.year-2027 .re-card,
+.year-2027 .re-filter,
+.year-2027 .update-card,
+.year-2027 .cmd-palette,
+.year-2027 .re-modal-window,
+.year-2027 .site-footer,
+.year-2027 .nav-tooltip {
+    background: var(--glass);
+    backdrop-filter: blur(22px) saturate(1.65);
+    -webkit-backdrop-filter: blur(22px) saturate(1.65);
+    border-color: var(--glass-edge);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.year-2027 .control-btn,
+.year-2027 .timeline-item,
+.year-2027 .contact-card,
+.year-2027 .re-card,
+.year-2027 .update-card,
+.year-2027 .cmd-palette,
+.year-2027 .re-modal-window {
+    position: relative;
+    overflow: hidden;
+}
+
+.year-2027 .control-btn::after,
+.year-2027 .timeline-item::after,
+.year-2027 .contact-card::after,
+.year-2027 .re-card::after,
+.year-2027 .update-card::after,
+.year-2027 .cmd-palette::after,
+.year-2027 .re-modal-window::after {
+    content: '';
+    position: absolute;
+    inset: -40% -20%;
+    background: linear-gradient(
+        115deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.16) 48%,
+        transparent 62%
+    );
+    transform: translateY(var(--sheen, 8%));
+    pointer-events: none;
+}
+
+.year-2027 .re-modal-content-area {
+    background: rgba(9, 9, 12, 0.72);
+}
+
+.year-2027 .hero {
+    scroll-margin-top: var(--tape-h);
+}
+
+.year-2027 section {
+    scroll-margin-top: var(--tape-h);
+}
