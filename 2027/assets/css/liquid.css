@@ -224,6 +224,7 @@
     align-items: center;
     justify-content: center;
     background: #09090b;
+    perspective: 1400px;
     transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
@@ -232,56 +233,55 @@
 }
 
 .luciano-intro-word {
+    position: relative;
     display: flex;
-    align-items: flex-end;
-    gap: 0.06em;
+    gap: 0.08em;
     font-family: 'JetBrains Mono', monospace;
     font-size: clamp(2.6rem, 9vw, 7.2rem);
     font-weight: 500;
     line-height: 1;
+    transform-style: preserve-3d;
 }
 
 .luciano-intro-word span {
     display: block;
     min-width: 0.72em;
     text-align: center;
-    color: rgba(255, 255, 255, 0.38);
-    transform: translateY(calc(var(--arc, 0px)));
+    color: rgba(255, 255, 255, 0.32);
+    will-change: transform;
+}
+
+.luciano-intro-word.is-flying span {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .luciano-intro-word span.is-set {
     color: #fff;
+    text-shadow: 0 0 22px rgba(255, 255, 255, 0.55);
 }
 
-.year-2027 .hero {
-    scroll-margin-top: var(--tape-h);
-    overflow: hidden;
-}
-
-.year-2027 .philosophy-bg {
-    display: none;
-}
-
-.year-2027 .cv-mark {
-    position: absolute;
+.section-mark {
+    position: fixed;
     left: 50%;
-    top: 54%;
-    z-index: 0;
+    top: 46%;
+    z-index: 3;
     transform: translate(-50%, -50%);
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(11rem, 46vw, 38rem);
-    letter-spacing: -0.08em;
-    line-height: 0.8;
+    font-size: clamp(4.2rem, 15vw, 12.5rem);
+    letter-spacing: -0.07em;
+    line-height: 0.82;
     color: rgba(255, 255, 255, 0.92);
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
-    opacity: var(--cv-opacity, 1);
+    opacity: 0;
 }
 
-.year-2027 .hero-content {
-    z-index: 1;
+.year-2027 .hero {
+    scroll-margin-top: var(--tape-h);
 }
 
 .year-2027 section {
