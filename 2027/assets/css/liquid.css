@@ -200,7 +200,7 @@
     display: flex;
     gap: 0.08em;
     font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(2.6rem, 9vw, 7.2rem);
+    font-size: clamp(4.2rem, 13vw, 9rem);
     font-weight: 500;
     line-height: 1;
     transform-style: preserve-3d;
@@ -210,7 +210,7 @@
     display: block;
     min-width: 0.72em;
     text-align: center;
-    color: rgba(255, 255, 255, 0.55);
+    color: #fff;
     opacity: 1;
 }
 

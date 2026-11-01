@@ -114,23 +114,26 @@
         letters.forEach((letter) => {
             letter.x = letter.el.offsetLeft;
             letter.y = letter.el.offsetTop;
+            letter.w = letter.el.offsetWidth;
+            letter.h = letter.el.offsetHeight;
         });
         row.style.width = width + 'px';
         row.style.height = height + 'px';
         row.classList.add('is-flying');
-        const cx = width / 2;
-        const cy = height / 2;
-        letters.forEach((letter) => {
+        const rowRect = row.getBoundingClientRect();
+        const letterW = letters[0].w || 40;
+        const gap = letterW * 0.46;
+        const total = gap * (letters.length - 1);
+        letters.forEach((letter, i) => {
+            const centerX = window.innerWidth / 2 - total / 2 + i * gap;
+            const centerY = window.innerHeight / 2;
+            const tx = centerX - rowRect.left - letter.w / 2;
+            const ty = centerY - rowRect.top - letter.h / 2;
             letter.el.style.transition = 'none';
             letter.el.style.opacity = '1';
-            place(letter.el, cx, cy, 0, 0.22);
+            place(letter.el, tx, ty, 0, 1);
         });
-        row.getBoundingClientRect();
-        letters.forEach((letter) => {
-            letter.el.style.transition = 'transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)';
-            place(letter.el, cx, cy, 36, 0.34);
-        });
-        later(bang, 620);
+        later(bang, 1100);
     }
 
     window.addEventListener('scroll', placeSection, { passive: true });
@@ -146,5 +149,9 @@
         if (e.key === 'Escape') openSite();
     });
 
-    condense();
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(condense);
+    } else {
+        condense();
+    }
 })();
