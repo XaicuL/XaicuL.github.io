@@ -259,23 +259,22 @@
 }
 
 .year-2027 .philosophy-bg {
-    opacity: 0;
+    display: none;
 }
 
 .year-2027 .cv-mark {
     position: absolute;
-    inset: 0;
+    left: 50%;
+    top: 54%;
     z-index: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2vw 0 calc(var(--nav-width) + 1vw);
+    transform: translate(-50%, -50%);
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(7.5rem, 28vw, 24rem);
+    font-size: clamp(11rem, 46vw, 38rem);
     letter-spacing: -0.08em;
-    line-height: 0.78;
-    color: rgba(255, 255, 255, 0.9);
+    line-height: 0.8;
+    color: rgba(255, 255, 255, 0.92);
+    white-space: nowrap;
     pointer-events: none;
     user-select: none;
     opacity: var(--cv-opacity, 1);
